@@ -12,11 +12,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
-from dotenv import find_dotenv, load_dotenv
+from dotenv import load_dotenv
 
-dotenv_path = find_dotenv()
-
-load_dotenv(dotenv_path)
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -85,8 +83,8 @@ DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "ZenInventory",
-        "USER": os.getenv("USER"),
-        "PASSWORD": os.getenv("PASSWORD"),
+        "USER": os.getenv('USER'),
+        "PASSWORD": os.getenv('PASSWORD'),
         "HOST": "localhost",
         "PORT": "5432"
     }
