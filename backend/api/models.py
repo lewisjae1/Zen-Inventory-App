@@ -1,12 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Order(models.Model):
-    Date = models.DateField(auto_now_add=True)
-    Additional_Message = models.CharField(max_length=100, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    additionalMessage = models.CharField(max_length=100, null=True)
 
 class Product(models.Model):
-    ProductName = models.CharField(max_length=50, null=False)
+    productName = models.CharField(max_length=50, null=False)
 
 class OrderProduct(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
