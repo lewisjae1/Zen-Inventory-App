@@ -3,13 +3,14 @@ from .models import *
 # Register your models here.
 class OrderAdmin(admin.ModelAdmin):
   list_display = [
-    'Date',
-    'Additional_Message'
+    'user',
+    'date',
+    'additionalMessage'
   ]
 
 class ProductAdmin(admin.ModelAdmin):
   list_display = [
-    'ProductName'
+    'productName'
   ]
 
 class OrderProductAdmin(admin.ModelAdmin):
