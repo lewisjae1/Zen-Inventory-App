@@ -5,7 +5,9 @@ class OrderAdmin(admin.ModelAdmin):
   list_display = [
     'user',
     'date',
-    'additionalMessage'
+    'additionalMessage',
+    'expirationDate',
+    'isCompleted'
   ]
 
 class ProductAdmin(admin.ModelAdmin):
@@ -20,6 +22,6 @@ class OrderProductAdmin(admin.ModelAdmin):
     'product'
   ]
 
-admin.site.register(Order)
-admin.site.register(Product)
-admin.site.register(OrderProduct)
+admin.site.register(Order, OrderAdmin)
+admin.site.register(Product, ProductAdmin)
+admin.site.register(OrderProduct, OrderProductAdmin)
