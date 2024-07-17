@@ -6,7 +6,8 @@ class OrderAdmin(admin.ModelAdmin):
     'user',
     'date',
     'additionalMessage',
-    'expirationDate'
+    'expirationDate',
+    'isCompleted'
   ]
 
 class ProductAdmin(admin.ModelAdmin):
