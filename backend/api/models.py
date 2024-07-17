@@ -9,6 +9,7 @@ class Order(models.Model):
     date = models.DateField(auto_now_add=True)
     additionalMessage = models.CharField(max_length=100, null=True, blank=True)
     expirationDate = models.DateTimeField(editable=False)
+    isCompleted = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if not self.expirationDate:
