@@ -11,6 +11,9 @@ class Order(models.Model):
     expirationDate = models.DateTimeField(editable=False)
     isCompleted = models.BooleanField(default=False)
 
+    def __str__(self) -> str:
+        return str(self.id)
+
     def save(self, *args, **kwargs):
         if not self.expirationDate:
             self.expirationDate = timezone.now() + timedelta(days=90)
@@ -19,6 +22,9 @@ class Order(models.Model):
 
 class Product(models.Model):
     productName = models.CharField(max_length=50, null=False)
+
+    def __str__(self) -> str:
+        return str(self.id)
 
 class OrderProduct(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
