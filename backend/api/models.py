@@ -11,6 +11,9 @@ class Order(models.Model):
     expirationDate = models.DateTimeField(editable=False)
     isCompleted = models.BooleanField(default=False)
 
+    def __str__(self) -> str:
+        return str(self.id)
+
     def save(self, *args, **kwargs):
         if not self.expirationDate:
             self.expirationDate = timezone.now() + timedelta(days=90)
@@ -20,7 +23,11 @@ class Order(models.Model):
 class Product(models.Model):
     productName = models.CharField(max_length=50, null=False)
 
+    def __str__(self) -> str:
+        return str(self.id)
+
 class OrderProduct(models.Model):
+    id = models.CharField(primary_key=True, editable=False, max_length=10, unique=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     numProduct = models.IntegerField(null=True)
@@ -28,3 +35,8 @@ class OrderProduct(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['order', 'product'], name='unique_order_product')
         ]
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.id = self.order.__str__() + '-' + self.product.__str__()
+        super().save(*args,**kwargs)
