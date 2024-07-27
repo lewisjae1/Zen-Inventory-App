@@ -1,7 +1,7 @@
 import '../styles/NotFound.css'
 
 function NotFound() {
-    return <div>
+    return <div className='NotFoundDiv'>
         <div className="number">404</div>
         <div className="text"><span>Ooops...</span><br></br><span>이런...</span>
         <br></br><br></br>
