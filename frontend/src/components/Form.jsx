@@ -14,7 +14,7 @@ function Form({route, method}) {
     const name = method === 'login' ? 'Log In 로그인' : 'Register 계정 생성'
     const buttonName = method === 'login' ? 'Register 계정 생성' : 'Log In 로그인'
     const redirectPrompt1 = method === 'login' ? 'Don\'t Have an Account?' :
-            'Have an Account'
+            'Have an Account?'
     const redirectPrompt2 = method === 'login' ? '계정이 없나요?' :
             '계정을 갖고 계신가요?'
 
