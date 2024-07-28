@@ -9,7 +9,7 @@ import Initial from './pages/Initial'
 
 function Logout() {
   localStorage.clear()
-  return <Navigate to ='/login' />
+  return <Navigate to ='/initial' />
 }
 
 function RegisterAndLogout() {
@@ -23,12 +23,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route
-            path='/home'
+            path='/'
             element={<ProtectedRoute>
               <Home />
             </ProtectedRoute>} 
           />
-          <Route path='/' element={<Initial />} />
+          <Route path='/initial' element={<Initial />} />
           <Route path='/login' element={<Login />} />
           <Route path='/logout' element={<Logout />} />
           <Route path='/register' element={<RegisterAndLogout />} />
