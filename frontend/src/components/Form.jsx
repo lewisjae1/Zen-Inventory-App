@@ -26,6 +26,10 @@ function Form({route, method}) {
         }
     }
 
+    const directInitial = () => {
+        navigate('/initial')
+    }
+
     const handleSubmit = async (e) => {
         setLoading(true)
         e.preventDefault()
@@ -44,7 +48,7 @@ function Form({route, method}) {
                 const res = await api.post(route, {username, password})
                 localStorage.setItem(ACCESS_TOKEN, res.data.access)
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh)
-                navigate('/home')
+                navigate('/')
             }   
         } catch (error) {
             if(method === 'register') {
@@ -100,6 +104,7 @@ function Form({route, method}) {
                     {name}
             </button></center>
         </form>
+        <button onClick={() => directInitial()} className="btn">Start Page 시작 페이지</button>
     </div>
 }
 
