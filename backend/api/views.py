@@ -4,6 +4,7 @@ from rest_framework import generics
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import *
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # Create your views here.
 class OrderListCreate(generics.ListCreateAPIView):
@@ -62,3 +63,11 @@ class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+
+class ListUserView(generics.ListAPIView):
+    serializer_class = UserSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return User.objects.filter(id=self.request.user.id)
