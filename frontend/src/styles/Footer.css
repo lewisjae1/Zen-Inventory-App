@@ -1,13 +1,11 @@
 footer {
-    padding-top :1rem;
-    padding-bottom: 1rem;
-    background-color: #f1f1f1;
-    text-align: center;
-    position: fixed;
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
     bottom: 0;
-    left: 0;
-    right: 0;
+    background-color: white;
+    padding: 10px 0;
     width: 100%;
+    z-index: 1000;
 }
 
 span {

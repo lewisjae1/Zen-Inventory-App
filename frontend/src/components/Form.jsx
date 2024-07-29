@@ -61,50 +61,52 @@ function Form({route, method}) {
         }
     }
 
-    return <div className="login-box">
-        <h3>{redirectPrompt1}</h3>
-        <h3>{redirectPrompt2}</h3>
-        <button onClick={() => handleClick()} className="btn">{buttonName}</button>
-        <form onSubmit={handleSubmit}>
-            <h1>{name}</h1>
-            <div className="user-box">
-                <input 
-                    type='text'
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                />
-                <label>Name 이름</label>
-            </div>
-            <div className="user-box">
-                <input 
-                    type='password'
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <label>PIN 핀번호</label>
-            </div>
-            {method === 'register' &&
+    return <div className='formDiv'>
+        <div className="login-box">
+            <h3>{redirectPrompt1}</h3>
+            <h3>{redirectPrompt2}</h3>
+            <button onClick={() => handleClick()} className="btn">{buttonName}</button>
+            <form onSubmit={handleSubmit}>
+                <h1>{name}</h1>
                 <div className="user-box">
-                <input 
-                    type='text'
-                    onChange={(e) => setAccessCode(e.target.value)}
-                    required
-                />
-                <label>Access Code 암호</label>
-                <span className='formSpan'>
-                    PIN Must be 4 Digits
-                </span>
-                <br />
-                <span className='formSpan'>
-                    핀번호는 4개의 숫자로 이루어져야 합니다
-                </span>
+                    <input 
+                        type='text'
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                    />
+                    <label>Name 이름</label>
                 </div>
-            }<center>
-            <button className='formButton' type='submit'>
-                    {name}
-            </button></center>
-        </form>
-        <button onClick={() => directInitial()} className="btn">Start Page 시작 페이지</button>
+                <div className="user-box">
+                    <input 
+                        type='password'
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                    <label>PIN 핀번호</label>
+                </div>
+                {method === 'register' &&
+                    <div className="user-box">
+                    <input 
+                        type='text'
+                        onChange={(e) => setAccessCode(e.target.value)}
+                        required
+                    />
+                    <label>Access Code 암호</label>
+                    <span className='formSpan'>
+                        PIN Must be 4 Digits
+                    </span>
+                    <br />
+                    <span className='formSpan'>
+                        핀번호는 4개의 숫자로 이루어져야 합니다
+                    </span>
+                    </div>
+                }<center>
+                <button className='formButton' type='submit'>
+                        {name}
+                </button></center>
+            </form>
+            <button onClick={() => directInitial()} className="btn">Start Page 시작 페이지</button>
+        </div>
     </div>
 }
 
