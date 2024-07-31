@@ -3,6 +3,7 @@ import api from '../api'
 import { useNavigate } from 'react-router-dom'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants'
 import '../styles/Form.css'
+import LoadingIndicator from './LoadingIndicator'
 
 function Form({route, method}) {
     const [username, setUsername] = useState('')
@@ -100,7 +101,9 @@ function Form({route, method}) {
                         핀번호는 4개의 숫자로 이루어져야 합니다
                     </span>
                     </div>
-                }<center>
+                }
+                {loading && <LoadingIndicator />}
+                <center>
                 <button className='formButton' type='submit'>
                         {name}
                 </button></center>
