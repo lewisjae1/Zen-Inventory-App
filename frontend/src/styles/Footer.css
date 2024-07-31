@@ -1,0 +1,13 @@
+footer {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+    padding: 10px 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+span {
+    color: orangered;
+}
