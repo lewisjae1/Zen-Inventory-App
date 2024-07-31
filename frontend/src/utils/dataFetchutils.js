@@ -8,3 +8,12 @@ export const fetchUserData = async () => {
         console.error(error)
     }
 }
+
+export const fetchProductData = async () => {
+    try{
+        const res = await api.get('api/product/')
+        return res.data
+    } catch (error) {
+        console.error(error)
+    }
+}
