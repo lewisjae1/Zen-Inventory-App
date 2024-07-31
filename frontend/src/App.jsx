@@ -8,6 +8,11 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Initial from './pages/Initial'
 import LoginStatus from './components/LoginStatus'
 import Footer from './components/Footer'
+import ManagerCompletedOrder from './pages/ManagerCompletedOrders'
+import ManagerOrderList from './pages/ManagerOrderList'
+import OrderCreate from './pages/OrderCreate'
+import WorkerCompletedOrders from './pages/WorkerCompletedOrders'
+import WorkerOrderList from './pages/WorkerOrderList'
 
 function Logout() {
   localStorage.clear()
@@ -29,6 +34,36 @@ function App() {
           path='/'
           element={<ProtectedRoute>
             <Home />
+          </ProtectedRoute>} 
+        />
+        <Route
+          path='/managercompletedorders'
+          element={<ProtectedRoute>
+            <ManagerCompletedOrder />
+          </ProtectedRoute>} 
+        />
+        <Route
+          path='/managerorderlist'
+          element={<ProtectedRoute>
+            <ManagerOrderList />
+          </ProtectedRoute>} 
+        />
+        <Route
+          path='/ordercreate'
+          element={<ProtectedRoute>
+            <OrderCreate />
+          </ProtectedRoute>} 
+        />
+        <Route
+          path='/workercompletedorders'
+          element={<ProtectedRoute>
+            <WorkerCompletedOrders />
+          </ProtectedRoute>} 
+        />
+        <Route
+          path='/workerorderlist'
+          element={<ProtectedRoute>
+            <WorkerOrderList />
           </ProtectedRoute>} 
         />
         <Route path='/initial' element={<Initial />} />
