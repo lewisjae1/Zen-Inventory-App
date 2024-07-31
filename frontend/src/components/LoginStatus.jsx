@@ -5,7 +5,7 @@ import { fetchUserData } from '../utils/dataFetchutils'
 
 
 function LoginStatus() {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(null)
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -16,18 +16,18 @@ function LoginStatus() {
 
     const getUserData = async () => {
         try {
-          const data = await fetchUserData();
+          const data = await fetchUserData()
           if (data) {
-            setUser(data[0]);
+            setUser(data[0])
           }
         } catch (error) {
-          console.error(error);
+          console.error(error)
         }
       };
 
     useEffect(() => {
         getUserData()
-      }, [location]);
+      }, [location])
 
     if(!user){
         return
