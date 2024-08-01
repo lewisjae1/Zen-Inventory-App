@@ -7,7 +7,8 @@ class OrderAdmin(admin.ModelAdmin):
     'date',
     'additionalMessage',
     'expirationDate',
-    'isCompleted'
+    'isCompleted',
+    'location'
   ]
 
 class ProductAdmin(admin.ModelAdmin):

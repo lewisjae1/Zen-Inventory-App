@@ -32,7 +32,7 @@ class OrderSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Order
-        fields = ['id', 'user', 'date', 'additionalMessage', 'expirationDate', 'isCompleted', 'products']
+        fields = ['id', 'user', 'date', 'additionalMessage', 'expirationDate', 'isCompleted', 'location', 'products']
         extra_kwargs = {'user': {'read_only': True}}
 
     def create(self, validated_data):
