@@ -1,5 +1,7 @@
+import OrderForm from '../components/OrderForm'
+
 function OrderCreate() {
-    return <div></div>
+  return <OrderForm route={'api/order/'} method={'create'}/>
 }
 
 export default OrderCreate
