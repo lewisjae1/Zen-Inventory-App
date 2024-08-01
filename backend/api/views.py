@@ -37,28 +37,6 @@ class OrderUpdate(generics.UpdateAPIView):
         else:
             return OrderWorkerUpdateSerializer
 
-class OrderProductListCreate(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = OrderProductSerializer
-
-    def get_queryset(self):
-        # Managers have full access to the all objects in Order Product
-        if(self.request.user.username == 'Jamie' or self.request.user.username == 'Scott' ):
-            return OrderProduct.objects.all()
-        else:
-            # Workers have access to only Order Product obejects that belongs to their orders.
-            userOrdered = self.request.user
-            return OrderProduct.objects.filter(order__user = userOrdered).select_related('order')
-            
-class OrderProductUpdate(generics.UpdateAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = OrderProduct.objects.all()
-    serializer_class = OrderProductUpdateSerializer
-
-    def get_queryset(self):
-        userOrdered = self.request.user
-        return OrderProduct.objects.filter(order__user = userOrdered).select_related('order')
-
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -71,3 +49,8 @@ class ListUserView(generics.ListAPIView):
 
     def get_queryset(self):
         return User.objects.filter(id=self.request.user.id)
+    
+class ListProductView(generics.ListAPIView):
+    serializer_class = ProductSerializer
+    permission_classes = [AllowAny]
+    queryset = Product.objects.all()
