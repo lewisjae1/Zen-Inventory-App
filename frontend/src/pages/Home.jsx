@@ -20,7 +20,7 @@ function Home() {
         } finally {
           setLoading(false)
         }
-      };
+      }
     
       const handleClick = (route) => {
         if (route === 'ManagerPendingOrder' ){
@@ -55,7 +55,7 @@ function Home() {
     return <div className='initialDiv'>
       <img src={ZenLogo} alt='Logo' width={200} height={100}/>
       <button onClick={() => handleClick('CreateOrder')} className="btn">Create New Order 새 주문 추가</button>
-      <button onClick={() => handleClick('WorkerPendingOrder')} className="btn">Pending Order List 미완료 주문 목록</button>
+      <button onClick={() => handleClick('WorkerPendingOrder')} className="btn">Pending Order 미완료 주문</button>
       <button onClick={() => handleClick('WorkerCompletedOrder')} className="btn">Completed Order List 완료 주문 목록</button>
     </div>
 }
