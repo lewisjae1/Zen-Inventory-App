@@ -45,3 +45,21 @@
     font-size: 14px;
     color: #2B641E;
   }
+
+.login-box .user-box select {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #010101;
+    outline: none;
+    background: transparent;
+  }
+
+.login-box .user-box select:focus ~ label,
+.login-box .user-box select:valid ~ label {
+    top: -20px;
+    left: 0;
+    font-size: 12px;
+  }
