@@ -50,6 +50,12 @@ class ListUserView(generics.ListAPIView):
     def get_queryset(self):
         return User.objects.filter(id=self.request.user.id)
     
+class ListAllUserView(generics.ListAPIView):
+    serializer_class= UserSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = User.objects.all()
+    
 class ListProductView(generics.ListAPIView):
     serializer_class = ProductSerializer
     permission_classes = [AllowAny]
