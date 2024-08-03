@@ -22,19 +22,36 @@ function OrderList({page, role}) {
           const data1 = await fetchOrderData()
           const data2 = await fetchAllUsersData()
           if (data1 && data2) {
-            if(selectedLocation === '') {
-                setOrders(data1)
+            if(page !== 'pendingOrderList') {
+                if(selectedLocation === '' || selectedLocation === 'All') {
+                    const filtered = data1.filter(order => order.isCompleted === true)
+                    setOrders(filtered)
+                } else if (selectedLocation !== '') {
+                    const filtered = data1.filter(order => order.isCompleted === true && order.location === selectedLocation)
+                    setOrders(filtered)
+                }
             } else {
-                const filtered = data1.filter(order => order.location === selectedLocation)
-                setOrders(filtered)
+                if(selectedLocation === '' || selectedLocation === 'All') {
+                    const filtered = data1.filter(order => order.isCompleted === false)
+                    setOrders(filtered)
+                } else if (selectedLocation !== '') {
+                    const filtered = data1.filter(order => order.isCompleted === false && order.location === selectedLocation)
+                    setOrders(filtered)
+                }
             }
-            setUsers(data2)
+            if(role === 'manager') {
+                setUsers(data2)
+            }
           }
         } catch (error) {
           console.error(error)
         } finally {
           setLoading(false)
         }
+    }
+
+    const directHome = () => {
+        navigate('/')
     }
 
     useEffect(() => {
