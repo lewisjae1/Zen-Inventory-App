@@ -13,8 +13,8 @@ function OrderList({page, role}) {
     const title1 = page === 'pendingOrderList' ? 'Pending Orders' : 'Completed Order'
     const title2 = page === 'pendingOrderList' ? '미완료 주문' : '완료 주문'
 
-    const directHome = () => {
-        navigate('/')
+    const directDetails = (orderId) => {
+        navigate('/order/' + orderId + '/' + role)
     }
 
     const getOrderAndUserData = async () => {
@@ -129,7 +129,7 @@ function OrderList({page, role}) {
                 <div className="card__left">
                     {orders.map(order => (
                         <div key={order.id} className='item'>
-                            <button id='listBtn' className='btn'>Detail 디테일</button>
+                            <button onClick={() => directDetails(order.id)} id='listBtn' className='btn'>Detail 디테일</button>
                         </div>
                     ))}
                 </div>
@@ -152,7 +152,7 @@ function OrderList({page, role}) {
                 <div className="card__left__worker">
                     {orders.map(order => (
                         <div key={order.id} className='item'>
-                            <button id='listBtn' className='btn'>Detail 디테일</button>
+                            <button onClick={() => directDetails(order.id)} id='listBtn' className='btn'>Detail 디테일</button>
                         </div>
                     ))}
                 </div>
