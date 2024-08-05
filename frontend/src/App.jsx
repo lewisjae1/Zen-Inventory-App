@@ -13,6 +13,7 @@ import ManagerOrderList from './pages/ManagerOrderList'
 import OrderCreate from './pages/OrderCreate'
 import WorkerCompletedOrders from './pages/WorkerCompletedOrders'
 import WorkerOrderList from './pages/WorkerOrderList'
+import OrderDetail from './pages/OrderDetail'
 
 function Logout() {
   localStorage.clear()
@@ -64,6 +65,12 @@ function App() {
           path='/workerorderlist'
           element={<ProtectedRoute>
             <WorkerOrderList />
+          </ProtectedRoute>} 
+        />
+        <Route
+          path='/order/:orderId/:role'
+          element={<ProtectedRoute>
+            <OrderDetail />
           </ProtectedRoute>} 
         />
         <Route path='/initial' element={<Initial />} />
