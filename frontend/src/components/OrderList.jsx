@@ -19,28 +19,28 @@ function OrderList({page, role}) {
 
     const getOrderAndUserData = async () => {
         try {
-          const data1 = await fetchOrderData()
-          const data2 = await fetchAllUsersData()
-          if (data1 && data2) {
+          const orderData = await fetchOrderData()
+          if (orderData) {
             if(page !== 'pendingOrderList') {
                 if(selectedLocation === '' || selectedLocation === 'All') {
-                    const filtered = data1.filter(order => order.isCompleted === true)
+                    const filtered = orderData.filter(order => order.isCompleted === true)
                     setOrders(filtered)
                 } else if (selectedLocation !== '') {
-                    const filtered = data1.filter(order => order.isCompleted === true && order.location === selectedLocation)
+                    const filtered = orderData.filter(order => order.isCompleted === true && order.location === selectedLocation)
                     setOrders(filtered)
                 }
             } else {
                 if(selectedLocation === '' || selectedLocation === 'All') {
-                    const filtered = data1.filter(order => order.isCompleted === false)
+                    const filtered = orderData.filter(order => order.isCompleted === false)
                     setOrders(filtered)
                 } else if (selectedLocation !== '') {
-                    const filtered = data1.filter(order => order.isCompleted === false && order.location === selectedLocation)
+                    const filtered = orderData.filter(order => order.isCompleted === false && order.location === selectedLocation)
                     setOrders(filtered)
                 }
             }
             if(role === 'manager') {
-                setUsers(data2)
+                const usersData = await fetchAllUsersData()
+                setUsers(usersData)
             }
           }
         } catch (error) {
