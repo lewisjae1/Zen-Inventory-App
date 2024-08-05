@@ -1,5 +1,7 @@
+import OrderList from '../components/OrderList'
+
 function WorkerCompletedOrders() {
-    return <div></div>
+    return <OrderList page='completedOrderList' role='worker' />
 }
 
 export default WorkerCompletedOrders

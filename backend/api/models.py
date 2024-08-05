@@ -8,15 +8,16 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     additionalMessage = models.CharField(max_length=100, null=True, blank=True)
-    expirationDate = models.DateTimeField(editable=False)
+    expirationDate = models.DateField(editable=False)
     isCompleted = models.BooleanField(default=False)
+    location = models.CharField(max_length=50, null=False)
 
     def __str__(self) -> str:
         return str(self.id)
 
     def save(self, *args, **kwargs):
         if not self.expirationDate:
-            self.expirationDate = timezone.now() + timedelta(days=90)
+            self.expirationDate = timezone.now().date() + timedelta(days=90)
         super().save(*args,**kwargs)
 
 

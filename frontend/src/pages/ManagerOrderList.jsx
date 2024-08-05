@@ -1,5 +1,7 @@
+import OrderList from '../components/OrderList'
+
 function ManagerOrderList() {
-    return <div></div>
+    return <OrderList page='pendingOrderList' role='manager' />
 }
 
 export default ManagerOrderList

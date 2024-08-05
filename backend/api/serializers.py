@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
 class OrderManagerUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ['iscompleted']
+        fields = ['isCompleted']
 
 class OrderWorkerUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,12 +27,17 @@ class OrderProductSerializer(serializers.ModelSerializer):
         model = OrderProduct
         fields = ['id', 'product', 'numProduct']
 
+class OrderProductDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderProduct
+        fields = ['id', 'order', 'product', 'numProduct']
+
 class OrderSerializer(serializers.ModelSerializer):
     products = OrderProductSerializer(many=True, write_only=True)
     
     class Meta:
         model = Order
-        fields = ['id', 'user', 'date', 'additionalMessage', 'expirationDate', 'isCompleted', 'products']
+        fields = ['id', 'user', 'date', 'additionalMessage', 'expirationDate', 'isCompleted', 'location', 'products']
         extra_kwargs = {'user': {'read_only': True}}
 
     def create(self, validated_data):

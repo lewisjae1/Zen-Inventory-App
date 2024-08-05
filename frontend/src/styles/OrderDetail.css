@@ -1,0 +1,30 @@
+.card__right__detail {
+    width: 33.33%;
+    border-right: 1px solid rgb(203, 203, 203);
+    text-align: center
+  }
+
+.card__right__worker__detail {
+    width: 50%;
+    border-right: 1px solid rgb(203, 203, 203);
+    text-align: center
+  }
+  
+.card__left__detail {
+    width: 33.33%;
+    text-align: center;
+  }
+
+.card__left__worker__detail {
+    width: 50%;
+    text-align: center;
+  }
+
+  #productList {
+    margin-top: 40px;
+  }
+
+  #AM {
+    background-color: black;
+    color: white;
+  }

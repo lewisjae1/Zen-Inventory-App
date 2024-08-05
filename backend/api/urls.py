@@ -10,5 +10,7 @@ urlpatterns = [
     path('order/', OrderListCreate.as_view(), name='order-list'),
     path('order/update/<int:pk>/', OrderUpdate.as_view(), name='order-update'),
     path('user/', ListUserView.as_view(), name='user-detail'),
-    path('product/', ListProductView.as_view(), name='product-list')
+    path('allusers/', ListAllUserView.as_view(), name='all-users-detail'),
+    path('product/', ListProductView.as_view(), name='product-list'),
+    path('orderproduct/', ListOrderProduct.as_view(), name='order-product')
 ]
