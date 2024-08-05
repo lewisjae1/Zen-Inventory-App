@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
 class OrderManagerUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ['iscompleted']
+        fields = ['isCompleted']
 
 class OrderWorkerUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,6 +26,11 @@ class OrderProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderProduct
         fields = ['id', 'product', 'numProduct']
+
+class OrderProductDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderProduct
+        fields = ['id', 'order', 'product', 'numProduct']
 
 class OrderSerializer(serializers.ModelSerializer):
     products = OrderProductSerializer(many=True, write_only=True)
