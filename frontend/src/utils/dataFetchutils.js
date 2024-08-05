@@ -35,3 +35,12 @@ export const fetchOrderData = async () => {
         console.error(error)
     }
 }
+
+export const fetchOrderProductData = async () => {
+    try {
+        const res = await api.get('api/orderproduct/')
+        return res.data
+    } catch (error) {
+        console.error(error)
+    }
+}
