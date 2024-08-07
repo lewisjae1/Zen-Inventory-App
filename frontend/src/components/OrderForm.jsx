@@ -61,6 +61,7 @@ function OrderForm({method, route}) {
         setCompleted(true)
       } catch(error) {
         console.log(error)
+        alert('Only One Pending Order is Allowed Per User. Try Updating the Order.\n유저당 한개만의 미완료 주문이 허용됩니다. 현재 완료되지 않은 주문 수정을 해보십시요.')
       } finally {
         setLoading(false)
       }
