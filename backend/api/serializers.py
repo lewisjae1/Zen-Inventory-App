@@ -40,6 +40,19 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'date', 'additionalMessage', 'expirationDate', 'isCompleted', 'location', 'products']
         extra_kwargs = {'user': {'read_only': True}}
 
+    def validate(self, data):
+        user = data.get('user')
+        isCompleted = data.get('isCompleted', False)
+        if not isCompleted:
+            incompleteOrders = Order.objects.filter(user = user, isCompleted = False)
+            if self.instance:
+                incompleteOrders = incompleteOrders.exclude(pk = self.instance.pk)
+            if incompleteOrders.exists():
+                raise serializers.ValidationError('Only one incomplete order is allowed per user.')
+            
+        return data
+
+
     def create(self, validated_data):
         products_data = validated_data.pop('products')
         order = Order.objects.create(**validated_data)
