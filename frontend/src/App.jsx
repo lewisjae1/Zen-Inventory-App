@@ -62,12 +62,6 @@ function App() {
           </ProtectedRoute>} 
         />
         <Route
-          path='/workerorderlist'
-          element={<ProtectedRoute>
-            <WorkerOrderList />
-          </ProtectedRoute>} 
-        />
-        <Route
           path='/order/:orderId/:role'
           element={<ProtectedRoute>
             <OrderDetail />
