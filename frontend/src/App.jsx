@@ -12,7 +12,6 @@ import ManagerCompletedOrder from './pages/ManagerCompletedOrders'
 import ManagerOrderList from './pages/ManagerOrderList'
 import OrderCreate from './pages/OrderCreate'
 import WorkerCompletedOrders from './pages/WorkerCompletedOrders'
-import WorkerOrderList from './pages/WorkerOrderList'
 import OrderDetail from './pages/OrderDetail'
 
 function Logout() {
