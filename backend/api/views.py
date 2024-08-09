@@ -27,7 +27,6 @@ class OrderListCreate(generics.ListCreateAPIView):
             print(serializer.errors)
 
 class OrderUpdate(generics.UpdateAPIView):
-    serializer_class = OrderSerializer
     queryset = Order.objects.all()
     permission_classes = [IsAuthenticated]
 
@@ -35,7 +34,7 @@ class OrderUpdate(generics.UpdateAPIView):
         if(self.request.user.username == 'Jamie' or self.request.user.username == 'Scott' ):
             return OrderManagerUpdateSerializer
         else:
-            return OrderWorkerUpdateSerializer
+            return OrderSerializer
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
