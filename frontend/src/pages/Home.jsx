@@ -10,7 +10,7 @@ function Home() {
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
     
-    const getUserData = async () => {
+    const getUserandOrderData = async () => {
         try {
           const userData = await fetchUserData()
 
@@ -47,7 +47,7 @@ function Home() {
     }
 
     useEffect(() => {
-        getUserData()
+        getUserandOrderData()
       }, []);
 
     if(loading) {
