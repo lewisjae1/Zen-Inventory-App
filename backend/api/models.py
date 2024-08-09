@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.utils import timezone
 from datetime import timedelta
 
@@ -14,10 +15,19 @@ class Order(models.Model):
 
     def __str__(self) -> str:
         return str(self.id)
+    
+    def clean(self):
+        if not self.isCompleted:
+            incompleteOrders = Order.objects.filter(user = self.user, isCompleted = False)
+            if self.pk:
+                incompleteOrders = incompleteOrders.exclude(pk = self.pk)
+            if incompleteOrders.exists():
+                raise ValidationError("only one incomplete order is allowd per user.")
 
     def save(self, *args, **kwargs):
         if not self.expirationDate:
             self.expirationDate = timezone.now().date() + timedelta(days=90)
+        self.clean()
         super().save(*args,**kwargs)
 
 

@@ -12,8 +12,8 @@ import ManagerCompletedOrder from './pages/ManagerCompletedOrders'
 import ManagerOrderList from './pages/ManagerOrderList'
 import OrderCreate from './pages/OrderCreate'
 import WorkerCompletedOrders from './pages/WorkerCompletedOrders'
-import WorkerOrderList from './pages/WorkerOrderList'
 import OrderDetail from './pages/OrderDetail'
+import OrderUpdate from './pages/OrderUpdate'
 
 function Logout() {
   localStorage.clear()
@@ -62,15 +62,15 @@ function App() {
           </ProtectedRoute>} 
         />
         <Route
-          path='/workerorderlist'
-          element={<ProtectedRoute>
-            <WorkerOrderList />
-          </ProtectedRoute>} 
-        />
-        <Route
           path='/order/:orderId/:role'
           element={<ProtectedRoute>
             <OrderDetail />
+          </ProtectedRoute>} 
+        />
+        <Route
+          path='/orderupdate/:orderId'
+          element={<ProtectedRoute>
+            <OrderUpdate />
           </ProtectedRoute>} 
         />
         <Route path='/initial' element={<Initial />} />

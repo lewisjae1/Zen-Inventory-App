@@ -20,6 +20,10 @@ function OrderDetail() {
         navigate('/')
     }
 
+    const directUpdate = () => {
+        navigate('/orderupdate/' + orderId)
+    }
+
     const getAllData = async () => {
         try{
             const orderData = await fetchOrderData()
@@ -148,9 +152,9 @@ function OrderDetail() {
                     </div>}
                 </div>
                 <div className="card__left__worker__detail">
-                    {orderProducts.map(orderProduct => (
-                        <div key={orderProduct.id} className='item'>
-                            {orderProduct.numProduct}
+                    {products.map(product => (
+                        <div key={product.id} className='item'>
+                            {orderProducts[orderProducts.findIndex(orderProduct => orderProduct.product === product.id)].numProduct}
                         </div>
                     ))}
                     {order.additionalMessage && <div className='item'>
@@ -161,6 +165,8 @@ function OrderDetail() {
         </div>
         {(role === 'manager' && !order.isCompleted)&&
         <button onClick={() => markComplete()} className="btn">Marked as Complete 완료 처리</button>}
+        {(role === 'worker' && !order.isCompleted)&&
+        <button onClick={() => directUpdate()} className="btn">Update 수정</button>}
         <button onClick={() => directHome()} className="btn">Home 홈페이지</button>
     </div>
 }

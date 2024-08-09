@@ -1,9 +1,9 @@
-import { fetchProductData } from '../utils/dataFetchutils'
+import { fetchOrderProductData, fetchProductData, fetchOrderData } from '../utils/dataFetchutils'
 import { useEffect, useState } from 'react'
 import LoadingIndicator from '../components/LoadingIndicator'
 import '../styles/OrderForm.css'
 import api from '../api'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 function OrderForm({method, route}) {
     const [products, setProducts] = useState([])
@@ -13,12 +13,32 @@ function OrderForm({method, route}) {
     const [loading, setLoading] = useState(true)
     const [Completed, setCompleted] = useState(false)
     const navigate = useNavigate()
+    const {orderId} = useParams()
+    const englishTitle = method === 'update' ? 'Order Update' : 'New Order'
+    const koreanTitle = method === 'update' ? '주문 수정' : '새 주문'
+    const englishSubmit = method === 'update' ? 'Update Order' : 'Create Order'
+    const koreanSubmit = method === 'update' ? '주문 수정' : '주문 생성'
+    const englishSuccess = method === 'update' ? 'Successfully Updated!' : 'Successfully Created!'
+    const koreanSuccess = method === 'update' ? '성공적으로 수정하였습니다!' : '성공적으로 생성하였습니다!'
 
-    const getproductData = async () => {
+    const getAllNecessaryData = async () => {
         try {
-          const data = await fetchProductData()
-          if (data) {
-            setProducts(data)
+          const productData = await fetchProductData()
+          if (productData) {
+            setProducts(productData)
+          }
+          if(method === 'update') {
+            const orderProductData = await fetchOrderProductData()
+            const orderData = await fetchOrderData()
+            const filteredOP = orderProductData.filter(orderProduct => orderProduct.order === parseInt(orderId))
+            const filteredOrder = orderData.filter(order => order.id === parseInt(orderId))
+            if(filteredOP && filteredOrder) {
+              setOrderProduct(filteredOP)
+              if(filteredOrder[0].additionalMessage){
+                setAddtionalMessage(filteredOrder[0].additionalMessage)
+              }              
+              setLocation(filteredOrder[0].location)
+            }
           }
         } catch (error) {
           console.error(error)
@@ -57,17 +77,24 @@ function OrderForm({method, route}) {
       }
 
       try {
-        const res = await api.post(route, orderData)
+        if(method === 'create'){
+          const res = await api.post(route, orderData)
+        } else {
+          const res = await api.put(route + orderId + '/', orderData)
+        }
         setCompleted(true)
       } catch(error) {
         console.log(error)
+        if(method === 'create'){
+          alert('Only One Pending Order is Allowed Per User. Try Updating the Order.\n유저당 한개만의 미완료 주문이 허용됩니다. 현재 완료되지 않은 주문 수정을 해보십시요.')
+        }
       } finally {
         setLoading(false)
       }
     }
 
     useEffect(() => {
-        getproductData()    
+        getAllNecessaryData()    
       }, [])
 
     if(loading) {
@@ -80,7 +107,7 @@ function OrderForm({method, route}) {
           <div className="success__icon">
             <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path clipRule="evenodd" d="m12 1c-6.075 0-11 4.925-11 11s4.925 11 11 11 11-4.925 11-11-4.925-11-11-11zm4.768 9.14c.0878-.1004.1546-.21726.1966-.34383.0419-.12657.0581-.26026.0477-.39319-.0105-.13293-.0475-.26242-.1087-.38085-.0613-.11844-.1456-.22342-.2481-.30879-.1024-.08536-.2209-.14938-.3484-.18828s-.2616-.0519-.3942-.03823c-.1327.01366-.2612.05372-.3782.1178-.1169.06409-.2198.15091-.3027.25537l-4.3 5.159-2.225-2.226c-.1886-.1822-.4412-.283-.7034-.2807s-.51301.1075-.69842.2929-.29058.4362-.29285.6984c-.00228.2622.09851.5148.28067.7034l3 3c.0983.0982.2159.1748.3454.2251.1295.0502.2681.0729.4069.0665.1387-.0063.2747-.0414.3991-.1032.1244-.0617.2347-.1487.3236-.2554z" fill="#393a37" fillRule="evenodd"></path></svg>
           </div>
-          <div className="success__title">Successfully Added!<br/>성공적으로 주문이 생성 되었습니다!</div>
+          <div className="success__title">{englishSuccess}<br/>{koreanSuccess}</div>
         </div>
         <button onClick={() => directHome()} className="btn">Home 홈페이지</button>
       </div>
@@ -89,7 +116,7 @@ function OrderForm({method, route}) {
     return <div className='orderCreateDiv'>
         <div className='login-box'>
             <form onSubmit={handleSubmit}>
-                <h1>New Order 새 주문</h1>
+                <h1>{englishTitle}<br/>{koreanTitle}</h1>
                 <ul className='productList'>
                 {products.map(product => (
                     <li key={product.id}>
@@ -98,6 +125,9 @@ function OrderForm({method, route}) {
                         type='number'
                         name={product.id}
                         onChange={handleProductChange}
+                        defaultValue={(method === 'update' && orderProducts[orderProducts.findIndex(
+                          orderProduct => orderProduct.product === product.id)]) && orderProducts[orderProducts.findIndex(
+                          orderProduct => orderProduct.product === product.id)].numProduct}
                     />
                     <label>{product.productName}</label>
                     </div>
@@ -108,11 +138,12 @@ function OrderForm({method, route}) {
                     <input 
                         type='text'
                         onChange={(e) => setAddtionalMessage(e.target.value)}
+                        defaultValue={additionalMessage && additionalMessage}
                     />
                     <label>Additional Message 추가 메시지</label>
                 </div>
                 <div className='user-box' id='orderCreateBox'>
-                    <select defaultValue='' onChange={(e) => setLocation(e.target.value)} name="location" id="location">
+                    <select value={location && location} onChange={(e) => setLocation(e.target.value)} name="location" id="location">
                         <option value=''></option>
                         <option value="Parkland">Parkland</option>
                         <option value="Lakewood">Lakewood</option>
@@ -127,7 +158,7 @@ function OrderForm({method, route}) {
                 {loading && <LoadingIndicator />}
                 <center>
                     <button className='formButton' type='submit'>
-                            Create New Order<br/>새 주문 생성
+                            {englishSubmit}<br/>{koreanSubmit}
                     </button>
                 </center>
             </form>
