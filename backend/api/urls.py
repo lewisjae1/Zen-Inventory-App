@@ -12,5 +12,6 @@ urlpatterns = [
     path('user/', ListUserView.as_view(), name='user-detail'),
     path('allusers/', ListAllUserView.as_view(), name='all-users-detail'),
     path('product/', ListProductView.as_view(), name='product-list'),
-    path('orderproduct/', ListOrderProduct.as_view(), name='order-product')
+    path('orderproduct/', ListOrderProduct.as_view(), name='order-product'),
+    path('deleteexpiredorders/', DeleteExpiredOrder.as_view(), name='delete-expired-orders')
 ]

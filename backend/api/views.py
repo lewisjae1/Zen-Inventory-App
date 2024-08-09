@@ -5,6 +5,8 @@ from .serializers import *
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import *
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.utils import timezone
+from rest_framework.response import Response
 
 # Create your views here.
 class OrderListCreate(generics.ListCreateAPIView):
@@ -72,3 +74,16 @@ class ListOrderProduct(generics.ListAPIView):
             # Workers have access to only the order that belongs to themselves
             userOrdered = self.request.user
             return OrderProduct.objects.filter(order__user=userOrdered)
+
+class DeleteExpiredOrder(generics.DestroyAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [AllowAny]
+
+    def delete(self, request, *args, **kwargs):
+        currentDate = timezone.now().date()
+        expiredOrder = self.queryset.filter(expirationDate__lte = currentDate)
+
+        expiredOrder.delete()
+
+        return Response()
