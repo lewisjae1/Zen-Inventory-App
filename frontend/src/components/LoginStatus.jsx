@@ -11,6 +11,9 @@ function LoginStatus() {
 
     const handleClick = () => {
         setUser(null)
+        if(navigator.serviceWorker.controller) {
+          navigator.serviceWorker.controller.postMessage('CLEAR_CACHE')
+        }
         navigate('/logout')
     }
 

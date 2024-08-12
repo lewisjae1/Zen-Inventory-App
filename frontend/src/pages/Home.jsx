@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { fetchUserData, fetchOrderData } from '../utils/dataFetchutils'
+import { fetchUserData, fetchOrderData, fetchOrderProductData,fetchProductData } from '../utils/dataFetchutils'
 import ZenLogo from '../assets/ZenRamen_Logo1024_1.jpg'
 import LoadingIndicator from '../components/LoadingIndicator'
 import { useNavigate } from 'react-router-dom'
@@ -8,10 +8,15 @@ function Home() {
     const [user, setUser] = useState(null)
     const [order, setOrder] = useState(null)
     const [loading, setLoading] = useState(true)
+
     const navigate = useNavigate()
     
-    const getUserandOrderData = async () => {
+    const getAllData = async () => {
         try {
+          // To be used offline
+          fetchProductData()
+          fetchOrderProductData()
+
           const userData = await fetchUserData()
 
           if (userData) {
@@ -47,7 +52,7 @@ function Home() {
     }
 
     useEffect(() => {
-        getUserandOrderData()
+        getAllData()
       }, []);
 
     if(loading) {

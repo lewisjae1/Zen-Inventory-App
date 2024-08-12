@@ -54,7 +54,9 @@ function Form({route, method}) {
         } catch (error) {
             if(method === 'register') {
                 alert('User with Same Name exists\n같은 이름의 유저가 존재합니다')
-            }else{
+            } else if(!navigator.onLine) {
+                alert('Network Seems to be Offline. Try Again Later.\n네트워크가 연결 되있지 않습니다. 연결 뒤 다시 시도해보세요.')
+            } else{
                 alert('Invalid Name or PIN \n맞지않은 이름 혹은 핀번호 입니다')
             }
         } finally {
