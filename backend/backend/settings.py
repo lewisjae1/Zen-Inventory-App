@@ -20,6 +20,8 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+FIREBASE_ADMIN_CREDENTIALS = os.path.join(BASE_DIR, "zen-inventory-app-firebase-adminsdk-t6kx7-8a4fe7d76f.json")
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
