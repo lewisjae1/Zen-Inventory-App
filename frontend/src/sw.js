@@ -1,7 +1,7 @@
 import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching'
-import { registerRoute } from 'workbox-routing';
-import { NetworkFirst, NetworkOnly } from 'workbox-strategies';
-import { CacheableResponsePlugin } from 'workbox-cacheable-response';
+import { registerRoute } from 'workbox-routing'
+import { NetworkFirst, NetworkOnly } from 'workbox-strategies'
+import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 import {BackgroundSyncPlugin} from 'workbox-background-sync'
 
 cleanupOutdatedCaches()
@@ -53,10 +53,10 @@ registerRoute(
 
 self.addEventListener('message', async (event) => {
   if (event.data === 'CLEAR_CACHE') {
-    const cacheNames = await caches.keys();
+    const cacheNames = await caches.keys()
     await Promise.all(
       cacheNames.filter(name => name === 'api-cache').map(name => caches.delete(name))
-    );
-    console.log('API cache cleared!');
+    )
+    console.log('API cache cleared!')
   }
-});
+})
