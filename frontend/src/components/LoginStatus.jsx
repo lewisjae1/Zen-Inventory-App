@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react'
 import '../styles/LoginStatus.css'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { fetchUserData } from '../utils/dataFetchutils'
+import api from '../api'
+import { getToken } from 'firebase/messaging'
+import { messaging } from '../firebase'
 
 
 function LoginStatus() {
@@ -9,7 +12,15 @@ function LoginStatus() {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const handleClick = () => {
+    const handleClick = async () => {
+        const token = await getToken(messaging, {
+          vapidKey: import.meta.env.VITE_VAPID_KEY
+        })
+        const tokenData = await api.get('/api/get-token/')
+        if(tokenData.data){
+          const filteredToken = tokenData.data.filter(data => data.token === token)
+          const res = await api.delete('/api/delete-token/' + filteredToken[0].id + '/')
+        }
         setUser(null)
         if(navigator.serviceWorker.controller) {
           navigator.serviceWorker.controller.postMessage('CLEAR_CACHE')
