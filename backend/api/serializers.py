@@ -95,3 +95,9 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['id', 'productName']
+
+class FCMTokenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FCMToken
+        fields = ['id', 'user', 'token']
+        extra_kwargs = {'user': {'read_only': True}}

@@ -87,3 +87,29 @@ class DeleteExpiredOrder(generics.DestroyAPIView):
         expiredOrder.delete()
 
         return Response()
+    
+class SaveFCMToken(generics.CreateAPIView):
+    queryset = FCMToken.objects.all()
+    serializer_class = FCMTokenSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        if serializer.is_valid():
+            validatedData = serializer.validated_data
+            deleteData = FCMToken.objects.filter(token = validatedData['token'])
+            deleteData.delete()
+            serializer.save(user=self.request.user)
+        else:
+            print(serializer.errors)
+
+class GetFCMToken(generics.ListAPIView):
+    queryset = FCMToken.objects.all()
+    serializer_class = FCMTokenSerializer
+    permission_classes = [IsAuthenticated]
+
+class DeleteFCMToken(generics.DestroyAPIView):
+    serializer_class = FCMTokenSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        return FCMToken.objects.filter(user = self.request.user)
+    
