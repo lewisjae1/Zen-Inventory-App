@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics
@@ -7,6 +8,19 @@ from .models import *
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.utils import timezone
 from rest_framework.response import Response
+from firebase_admin import messaging
+
+def sendFCMNotification(token, title, body, url):
+    message = messaging.Message(
+        data = {
+            'title' : title,
+            'body' : body,
+            'url' : url
+        },
+        token = token
+    )
+    response = messaging.send(message)
+    return response
 
 # Create your views here.
 class OrderListCreate(generics.ListCreateAPIView):
@@ -24,7 +38,25 @@ class OrderListCreate(generics.ListCreateAPIView):
     
     def perform_create(self, serializer):
         if serializer.is_valid():
-            serializer.save(user=self.request.user)
+            instance = serializer.save(user=self.request.user)
+            managerTokens = FCMToken.objects.filter(
+                Q(user__username = 'Jamie') | Q(user__username = 'Scott')
+            )
+            workerTokens = FCMToken.objects.filter(user = instance.user)
+            for token in managerTokens:
+                sendFCMNotification(
+                    token = token.token,
+                    title = 'New Order Created',
+                    body = f'Order is created by {instance.user.username} on {instance.date}.\n주문이 {instance.user.username}님 의해 {instance.date}에 요청 되었습니다.',
+                    url = '/order/' + str(instance.id) + '/manager'
+                )
+            for token in workerTokens:
+                sendFCMNotification(
+                    token = token.token,
+                    title = 'New Order Created',
+                    body = f'Order is successfully created by {instance.date}.\n주문이 {instance.date}에 성공적으로 요청 되었습니다.',
+                    url = '/order/' + str(instance.id) + '/worker'
+                )
         else:
             print(serializer.errors)
 
@@ -33,10 +65,37 @@ class OrderUpdate(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
-        if(self.request.user.username == 'Jamie' or self.request.user.username == 'Scott' ):
+        if(self.request.user.username == 'Jamie' or self.request.user.username == 'Scott'):
             return OrderManagerUpdateSerializer
         else:
             return OrderSerializer
+    
+    def perform_update(self, serializer):
+        if serializer.is_valid():
+            instance = serializer.save()
+            if(self.request.user.username == 'Jamie' or self.request.user.username == 'Scott'):
+                workerTokens = FCMToken.objects.filter(user = instance.user)
+                for token in workerTokens:
+                    sendFCMNotification(
+                        token = token.token,
+                        title = 'Order Completed',
+                        body = f'Order created on {instance.date} is completed.\n{instance.date}에 요청된 주문이 완료 되었습니다.',
+                        url = '/order/' + str(instance.id) + '/worker'
+                    )
+            else:
+                managerTokens = FCMToken.objects.filter(
+                    Q(user__username = 'Jamie') | Q(user__username = 'Scott')
+                )
+                for token in managerTokens:
+                    sendFCMNotification(
+                        token = token.token,
+                        title = 'Order Updated',
+                        body = f'Order created by {instance.user.username} on {instance.date} has been updated\n{instance.user.username}님에 의해 {instance.date}에 요청된 주문이 수정 되었습니다.',
+                        url = '/order/' + str(instance.id) + '/manager'
+                    )
+        else:
+            print(serializer.errors)
+        
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
