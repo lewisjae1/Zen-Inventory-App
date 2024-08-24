@@ -17,6 +17,10 @@ function OrderList({page, role}) {
         navigate('/order/' + orderId + '/' + role)
     }
 
+    const sortByid = (orders) => {
+        orders.sort((a, b) => b.id - a.id)  
+    }
+
     const getOrderAndUserData = async () => {
         try {
           const orderData = await fetchOrderData()
@@ -24,17 +28,21 @@ function OrderList({page, role}) {
             if(page !== 'pendingOrderList') {
                 if(selectedLocation === '' || selectedLocation === 'All') {
                     const filtered = orderData.filter(order => order.isCompleted === true)
+                    sortByDate(filtered)
                     setOrders(filtered)
                 } else if (selectedLocation !== '') {
                     const filtered = orderData.filter(order => order.isCompleted === true && order.location === selectedLocation)
+                    sortByDate(filtered)
                     setOrders(filtered)
                 }
             } else {
                 if(selectedLocation === '' || selectedLocation === 'All') {
                     const filtered = orderData.filter(order => order.isCompleted === false)
+                    sortByDate(filtered)
                     setOrders(filtered)
                 } else if (selectedLocation !== '') {
                     const filtered = orderData.filter(order => order.isCompleted === false && order.location === selectedLocation)
+                    sortByDate(filtered)
                     setOrders(filtered)
                 }
             }
@@ -55,7 +63,7 @@ function OrderList({page, role}) {
     }
 
     useEffect(() => {
-        getOrderAndUserData()    
+        getOrderAndUserData()
     }, [selectedLocation])
 
     if(loading) {
