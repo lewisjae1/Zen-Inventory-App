@@ -51,3 +51,6 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+
+#firebase config file
+zen-inventory-app-firebase-adminsdk-t6kx7-8a4fe7d76f.json
