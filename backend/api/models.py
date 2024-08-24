@@ -5,6 +5,10 @@ from django.utils import timezone
 from datetime import timedelta
 
 # Create your models here.
+class FCMToken(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    token = models.CharField(max_length=255)
+
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
