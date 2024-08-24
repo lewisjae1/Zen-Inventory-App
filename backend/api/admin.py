@@ -23,6 +23,13 @@ class OrderProductAdmin(admin.ModelAdmin):
     'product'
   ]
 
+class FCMTokenAdmin(admin.ModelAdmin):
+  list_display = [
+    'user',
+    'token'
+  ]
+
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(OrderProduct, OrderProductAdmin)
+admin.site.register(FCMToken, FCMTokenAdmin)
