@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
+import { useEffect } from 'react'
 import './styles/Render.css'
 import Login from './pages/Login'
 import Home from './pages/Home'
@@ -26,6 +27,16 @@ function RegisterAndLogout() {
 }
 
 function App() {
+  useEffect (() => {
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        console.log('Notification Permission Granted.')
+      } else if(permission === 'denied') {
+        alert('You denied for the notification')
+      }
+    })
+  }, [])
+
   return (
     <>
     <BrowserRouter>
