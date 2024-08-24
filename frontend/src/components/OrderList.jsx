@@ -17,7 +17,7 @@ function OrderList({page, role}) {
         navigate('/order/' + orderId + '/' + role)
     }
 
-    const sortByid = (orders) => {
+    const sortById = (orders) => {
         orders.sort((a, b) => b.id - a.id)  
     }
 
@@ -28,21 +28,21 @@ function OrderList({page, role}) {
             if(page !== 'pendingOrderList') {
                 if(selectedLocation === '' || selectedLocation === 'All') {
                     const filtered = orderData.filter(order => order.isCompleted === true)
-                    sortByDate(filtered)
+                    sortById(filtered)
                     setOrders(filtered)
                 } else if (selectedLocation !== '') {
                     const filtered = orderData.filter(order => order.isCompleted === true && order.location === selectedLocation)
-                    sortByDate(filtered)
+                    sortById(filtered)
                     setOrders(filtered)
                 }
             } else {
                 if(selectedLocation === '' || selectedLocation === 'All') {
                     const filtered = orderData.filter(order => order.isCompleted === false)
-                    sortByDate(filtered)
+                    sortById(filtered)
                     setOrders(filtered)
                 } else if (selectedLocation !== '') {
                     const filtered = orderData.filter(order => order.isCompleted === false && order.location === selectedLocation)
-                    sortByDate(filtered)
+                    sortById(filtered)
                     setOrders(filtered)
                 }
             }
