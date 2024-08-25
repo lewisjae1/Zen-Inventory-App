@@ -30,9 +30,9 @@ FIREBASE_ADMIN_CREDENTIALS = os.path.join(BASE_DIR, "zen-inventory-app-firebase-
 SECRET_KEY = 'django-insecure-%_(2g$b@v=%9=1!azr-1e3t#ggqk_@7_8a413r_#tvilo+13g3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://zen-inventory-app-07de1cddb543.herokuapp.com/', '127.0.0.1']
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -101,11 +101,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "ZenInventory",
+        "NAME": os.getenv('NAME'),
         "USER": os.getenv('USER'),
         "PASSWORD": os.getenv('PASSWORD'),
-        "HOST": "localhost",
-        "PORT": "5432"
+        "HOST": os.getenv('HOST'),
+        "PORT": os.getenv('PORT')
     }
 }
 
