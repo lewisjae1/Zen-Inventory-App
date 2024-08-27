@@ -14,20 +14,22 @@ from pathlib import Path
 from datetime import timedelta
 import os
 from dotenv import load_dotenv
-from boto.s3.connection import S3Connection
+import boto3
 
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+s3 = boto3.resource('s3')
+
 FIREBASE_ADMIN_CREDENTIALS = {
   "type": "service_account",
   "project_id": "zen-inventory-app",
-  "private_key_id": S3Connection(os.environ('PRIVATE_KEY_ID')),
-  "private_key": S3Connection(os.environ('PRIVATE_KEY')),
+  "private_key_id": s3(os.environ('PRIVATE_KEY_ID')),
+  "private_key": s3(os.environ('PRIVATE_KEY')),
   "client_email": "firebase-adminsdk-t6kx7@zen-inventory-app.iam.gserviceaccount.com",
-  "client_id": S3Connection(os.environ('CLIENT_ID')),
+  "client_id": s3(os.environ('CLIENT_ID')),
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
   "token_uri": "https://oauth2.googleapis.com/token",
   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
