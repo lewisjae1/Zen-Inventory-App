@@ -9,7 +9,6 @@ class ApiConfig(AppConfig):
     name = 'api'
 
     def ready(self):
-        cred = credentials.Certificate(settings.FIREBASE_ADMIN_CREDENTIALS)
         firebase_admin.initialize_app({
             "type": "service_account",
             "project_id": "zen-inventory-app",
