@@ -21,7 +21,7 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-FIREBASE_ADMIN_CREDENTIALS = json.dump({
+FIREBASE_ADMIN_CREDENTIALS = json.dumps({
   "type": "service_account",
   "project_id": "zen-inventory-app",
   "private_key_id": os.environ['PRIVATE_KEY_ID'],
