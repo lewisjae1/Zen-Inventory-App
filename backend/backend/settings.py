@@ -20,7 +20,20 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-FIREBASE_ADMIN_CREDENTIALS = os.path.join(BASE_DIR, "zen-inventory-app-firebase-adminsdk-t6kx7-8a4fe7d76f.json")
+FIREBASE_ADMIN_CREDENTIALS = {
+  "type": "service_account",
+  "project_id": "zen-inventory-app",
+  "private_key_id": os.getenv('PRIVATE_KEY_ID'),
+  "private_key": os.getenv('PRIVATE_KEY'),
+  "client_email": "firebase-adminsdk-t6kx7@zen-inventory-app.iam.gserviceaccount.com",
+  "client_id": os.getenv('CLIENT_ID'),
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-t6kx7%40zen-inventory-app.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -32,7 +45,7 @@ SECRET_KEY = 'django-insecure-%_(2g$b@v=%9=1!azr-1e3t#ggqk_@7_8a413r_#tvilo+13g3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://zen-inventory-app-07de1cddb543.herokuapp.com/', '127.0.0.1']
+ALLOWED_HOSTS = ['https://zen-inventory-app-07de1cddb543.herokuapp.com/', '127.0.0.1:8000']
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
