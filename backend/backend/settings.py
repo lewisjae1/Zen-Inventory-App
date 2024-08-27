@@ -14,30 +14,11 @@ from pathlib import Path
 from datetime import timedelta
 import os
 from dotenv import load_dotenv
-import json
 
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-firebaseJson = {
-  "type": "service_account",
-  "project_id": "zen-inventory-app",
-  "private_key_id": os.environ['PRIVATE_KEY_ID'],
-  "private_key": os.environ['PRIVATE_KEY'],
-  "client_email": "firebase-adminsdk-t6kx7@zen-inventory-app.iam.gserviceaccount.com",
-  "client_id": os.environ['CLIENT_ID'],
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-t6kx7%40zen-inventory-app.iam.gserviceaccount.com",
-  "universe_domain": "googleapis.com"
-}
-
-FIREBASE_ADMIN_CREDENTIALS = json.dumps(firebaseJson)
-
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
