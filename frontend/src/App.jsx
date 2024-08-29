@@ -53,7 +53,9 @@ function App() {
     } else if (isIOS && isStandAlone) {
       alert('Welcome! If you haven\'t allowed notification please do so by going to Settings > Zen Inventory > Notification > Allow Notification\n' +
             'If you have done so, please disregard this message.\n' +
+            'First time user will be asked to allow notification when logging in\n' +
             '환영합니다! 아직 알림 설정을 안하셨다면 해주세요! 설정 > Zen Inventory > 알림 > 알림 허용.\n' +
+            '처음 사용하는 유저는 로그인 할때 알림 허용 하라는 메시지가 나올것입니다.\n' +
             '이미 하셨다면, 이 메시지를 무시 해주세요.')
     }
   }, [])
