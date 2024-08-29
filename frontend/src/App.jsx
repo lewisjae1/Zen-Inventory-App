@@ -40,7 +40,7 @@ function App() {
         console.log('Notification Permission Granted.')
       } else if(permission === 'denied') {
         alert('You denied for the notification')
-        alert('notification permission: ', permission)
+        alert('notification permission: ' + permission)
       }
     })
   }, [])
