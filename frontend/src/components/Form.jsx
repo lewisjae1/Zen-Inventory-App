@@ -37,6 +37,9 @@ function Form({route, method}) {
         setLoading(true)
         e.preventDefault()
 
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+        const isStandAlone = window.navigator.standalone === true
+
         try {
             if (method === 'register'){
                 if (password.match('[^0-9]') || password.length != 4){
@@ -51,10 +54,12 @@ function Form({route, method}) {
                 const res = await api.post(route, {username, password})
                 localStorage.setItem(ACCESS_TOKEN, res.data.access)
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh)
-                const token = await getToken(messaging, {
-                    vapidKey: import.meta.env.VITE_VAPID_KEY
-                })
-                const tokenPost = await api.post('/api/save-token/', {token})
+                if(!isIOS || isStandAlone) {
+                    const token = await getToken(messaging, {
+                        vapidKey: import.meta.env.VITE_VAPID_KEY
+                    })
+                    const tokenPost = await api.post('/api/save-token/', {token})
+                }
                 navigate('/')
             }   
         } catch (error) {
