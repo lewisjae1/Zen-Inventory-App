@@ -13,7 +13,7 @@ function LoginStatus() {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+    const isIOS = /iPad|iPhone|iPod|Mac/.test(navigator.userAgent)
     const isStandAlone = window.navigator.standalone === true
 
     const handleClick = async () => {

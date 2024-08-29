@@ -29,7 +29,7 @@ function RegisterAndLogout() {
   return <Register />
 }
 
-const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+const isIOS = /iPad|iPhone|iPod|Mac/.test(navigator.userAgent)
 const isStandAlone = window.navigator.standalone === true
 
 const notificationCheck = () => {
@@ -53,7 +53,7 @@ function App() {
     } else if (isIOS && isStandAlone) {
       alert('Welcome! If you haven\'t allowed notification please do so by going to Settings > Zen Inventory > Notification > Allow Notification\n' +
             'If you have done so, please disregard this message.\n' +
-            '환영합니다! 아직 알림 설정을 안하셨다면 해주세요! 설정 > Zen Inventory > 알림 > 알림 허용.' +
+            '환영합니다! 아직 알림 설정을 안하셨다면 해주세요! 설정 > Zen Inventory > 알림 > 알림 허용.\n' +
             '이미 하셨다면, 이 메시지를 무시 해주세요.')
     }
   }, [])
