@@ -65,6 +65,7 @@ function Form({route, method}) {
             } else{
                 alert('Invalid Name or PIN \n맞지않은 이름 혹은 핀번호 입니다')
                 alert(error)
+                console.error(error)
             }
         } finally {
             setLoading(false)
