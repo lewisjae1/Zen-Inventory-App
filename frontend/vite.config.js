@@ -11,7 +11,7 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
         name: 'Zen Inventory App',
-        short_name: 'Inventory',
+        short_name: 'Zen Inventory',
         description: 'App that takes care of orders regarding store\'s inventory',
         theme_color: '#ffffff',
         icons: [
