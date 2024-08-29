@@ -46,8 +46,10 @@ function App() {
   useEffect (() => {
     onMessage(messaging, (payload) => {
       console.log('Message received. ', payload)
+      localStorage.setItem('payload body', payload.data.body)
       window.location.reload()
       toast.success(payload.data.body)
+      localStorage.removeItem('payload body')
     })
     if(!isIOS) {
       notificationCheck()
