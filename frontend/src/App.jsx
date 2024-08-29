@@ -48,7 +48,7 @@ function App() {
       console.log('Message received. ', payload)
       localStorage.setItem('payload body', payload.data.body)
       window.location.reload()
-      toast.success(payload.data.body)
+      toast.success(localStorage.getItem('payload body'))
       localStorage.removeItem('payload body')
     })
     if(!isIOS) {
