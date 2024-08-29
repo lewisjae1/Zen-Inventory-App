@@ -29,20 +29,30 @@ function RegisterAndLogout() {
   return <Register />
 }
 
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+const isStandAlone = window.navigator.standalone === true;
+
+const notificationCheck = () => {
+  Notification.requestPermission().then((permission) => {
+    if (permission === 'granted') {
+      console.log('Notification Permission Granted.')
+    } else if(permission === 'denied') {
+      alert('You denied for the notification')
+    }
+  })
+}
+
 function App() {
   useEffect (() => {
     onMessage(messaging, (payload) => {
       console.log('Message received. ', payload)
       toast.success(payload.data.body)
     })
-    // Notification.requestPermission().then((permission) => {
-    //   if (permission === 'granted') {
-    //     console.log('Notification Permission Granted.')
-    //   } else if(permission === 'denied') {
-    //     alert('You denied for the notification')
-    //     alert('notification permission: ' + permission)
-    //   }
-    // })
+    if(!isIOS) {
+      notificationCheck()
+    } else if (isIOS && isStandAlone) {
+      notificationCheck()
+    }
   }, [])
 
   return (
