@@ -61,13 +61,6 @@ function LoginStatus() {
 
     useEffect(() => {
         getUserData()
-        Notification.requestPermission().then((permission) => {
-          if (permission === 'granted') {
-            console.log('Notification Permission Granted.')
-          } else if(permission === 'denied') {
-            alert('You denied for the notification')
-          }
-        })
       }, [location])
 
     if(!user){
