@@ -37,7 +37,7 @@ function Form({route, method}) {
         setLoading(true)
         e.preventDefault()
 
-        const isIOS = iPad|iPhone|iPod.test(navigator.userAgent)
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
         const isStandAlone = window.navigator.standalone === true
 
         try {

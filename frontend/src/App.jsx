@@ -29,7 +29,7 @@ function RegisterAndLogout() {
   return <Register />
 }
 
-const isIOS = iPad|iPhone|iPod.test(navigator.userAgent)
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
 const isStandAlone = window.navigator.standalone === true
 
 const notificationCheck = () => {
