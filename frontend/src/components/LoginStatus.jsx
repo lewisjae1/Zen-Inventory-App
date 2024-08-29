@@ -13,20 +13,25 @@ function LoginStatus() {
     const navigate = useNavigate()
     const location = useLocation()
 
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+    const isStandAlone = window.navigator.standalone === true
+
     const handleClick = async () => {
+      if (!isIOS || isStandAlone){
         const token = await getToken(messaging, {
           vapidKey: import.meta.env.VITE_VAPID_KEY
         })
         const tokenData = await api.get('/api/get-token/')
-        if(tokenData.data && token){
+        if(tokenData.data){
           const filteredToken = tokenData.data.filter(data => data.token === token)
           const res = await api.delete('/api/delete-token/' + filteredToken[0].id + '/')
         }
-        setUser(null)
-        if(navigator.serviceWorker.controller) {
-          navigator.serviceWorker.controller.postMessage('CLEAR_CACHE')
-        }
-        navigate('/logout')
+      }   
+      setUser(null)
+      if(navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage('CLEAR_CACHE')
+      }
+      navigate('/logout')
     }
 
     const getUserData = async () => {
