@@ -12,6 +12,7 @@ export default defineConfig({
       manifest: {
         name: 'Zen Inventory App',
         short_name: 'Zen Inventory',
+        display: 'standalone',
         description: 'App that takes care of orders regarding store\'s inventory',
         theme_color: '#ffffff',
         icons: [
