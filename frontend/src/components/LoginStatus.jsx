@@ -8,7 +8,6 @@ import { messaging } from '../firebase'
 import { REFRESH_TOKEN, ACCESS_TOKEN } from '../constants'
 import {jwtDecode} from 'jwt-decode'
 
-
 function LoginStatus() {
     const [user, setUser] = useState(null)
     const navigate = useNavigate()
@@ -19,7 +18,7 @@ function LoginStatus() {
           vapidKey: import.meta.env.VITE_VAPID_KEY
         })
         const tokenData = await api.get('/api/get-token/')
-        if(tokenData.data){
+        if(tokenData.data && token){
           const filteredToken = tokenData.data.filter(data => data.token === token)
           const res = await api.delete('/api/delete-token/' + filteredToken[0].id + '/')
         }
