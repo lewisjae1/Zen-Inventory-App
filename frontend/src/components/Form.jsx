@@ -64,6 +64,7 @@ function Form({route, method}) {
                 alert('Network Seems to be Offline. Try Again Later.\n네트워크가 연결 되있지 않습니다. 연결 뒤 다시 시도해보세요.')
             } else{
                 alert('Invalid Name or PIN \n맞지않은 이름 혹은 핀번호 입니다')
+                alert(error)
             }
         } finally {
             setLoading(false)
