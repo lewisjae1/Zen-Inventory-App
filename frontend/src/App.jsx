@@ -46,6 +46,7 @@ function App() {
   useEffect (() => {
     onMessage(messaging, (payload) => {
       console.log('Message received. ', payload)
+      window.location.reload()
       toast.success(payload.data.body)
     })
     if(!isIOS) {
