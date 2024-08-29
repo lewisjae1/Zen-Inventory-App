@@ -35,14 +35,14 @@ function App() {
       console.log('Message received. ', payload)
       toast.success(payload.data.body)
     })
-    Notification.requestPermission().then((permission) => {
-      if (permission === 'granted') {
-        console.log('Notification Permission Granted.')
-      } else if(permission === 'denied') {
-        alert('You denied for the notification')
-        alert('notification permission: ' + permission)
-      }
-    })
+    // Notification.requestPermission().then((permission) => {
+    //   if (permission === 'granted') {
+    //     console.log('Notification Permission Granted.')
+    //   } else if(permission === 'denied') {
+    //     alert('You denied for the notification')
+    //     alert('notification permission: ' + permission)
+    //   }
+    // })
   }, [])
 
   return (
