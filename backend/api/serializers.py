@@ -56,8 +56,6 @@ class OrderSerializer(serializers.ModelSerializer):
         return order
 
     def update(self, instance, validated_data):
-        if instance.isCompleted == True:
-            raise serializers.ValidationError('Order is already completed')
         products_data = validated_data.pop('products')
         instance.date = validated_data.get('date', instance.date)
         instance.additionalMessage = validated_data.get('additionalMessage', instance.additionalMessage)
