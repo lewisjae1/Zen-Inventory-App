@@ -24,8 +24,8 @@ def sendFCMNotification(token, title, body, url):
     except messaging.UnregisteredError:
         deleteToken = FCMToken.objects.filter(token = token)
         deleteToken.delete()
-
-    return response
+    else:
+        return response
 
 # Create your views here.
 class OrderListCreate(generics.ListCreateAPIView):
