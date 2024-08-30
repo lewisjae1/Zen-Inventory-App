@@ -19,7 +19,12 @@ def sendFCMNotification(token, title, body, url):
         },
         token = token
     )
-    response = messaging.send(message)
+    try:
+        response = messaging.send(message)
+    except messaging.UnregisteredError:
+        deleteToken = FCMToken.objects.filter(token = token)
+        deleteToken.delete()
+
     return response
 
 # Create your views here.
