@@ -90,6 +90,8 @@ function OrderForm({method, route}) {
         const pendingOrder = orders.filter(order => order.isCompleted === false)
         if(method === 'create' && pendingOrder[0]){
           alert('Only One Pending Order is Allowed Per User. Try Updating the Order.\n유저당 한개만의 미완료 주문이 허용됩니다. 현재 완료되지 않은 주문 수정을 해보십시요.')
+        } else if (method === 'update') {
+          alert('Order Already Has Been Completed. Try Creating New Order.\n주문이 이미 완료 되었습니다. 새로운 주문을 요청해주세요.')
         }
         if(!navigator.onLine){
           if(method === 'update'){
