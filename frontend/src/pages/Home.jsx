@@ -21,6 +21,14 @@ function Home() {
 
           if (userData) {
             setUser(userData[0])
+            const tokenData = await api.get('/api/get-token/')
+            const FCMToken = localStorage.getItem('FCM Token')
+            if(tokenData.data){
+              const filteredToken = tokenData.data.filter(data => data.token === token)
+              if(!filteredToken[0]){
+                const tokenPost = await api.post('/api/save-token/', {FCMToken})
+              }
+            }
           }
 
           if(userData[0].username !== 'Jamie' || userData[0].username !== 'Scott'){
