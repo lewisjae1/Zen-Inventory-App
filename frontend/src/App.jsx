@@ -51,9 +51,11 @@ function App() {
       console.log('Message received. ', payload)
       toast.success(payload.data.body)
     })
-    const FCMToken = await getToken(messaging, {
+    try{const FCMToken = await getToken(messaging, {
       vapidKey: import.meta.env.VITE_VAPID_KEY
-    })
+    })}catch(error) {
+      console.error(error)
+    }
     localStorage.setItem('FCM Token', FCMToken)
     if(!isIOS) {
       notificationCheck()
