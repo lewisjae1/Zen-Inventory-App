@@ -3,6 +3,7 @@ import { fetchUserData, fetchOrderData, fetchOrderProductData,fetchProductData }
 import ZenLogo from '../assets/ZenRamen_Logo1024_1.jpg'
 import LoadingIndicator from '../components/LoadingIndicator'
 import { useNavigate } from 'react-router-dom'
+import api from '../api'
 
 function Home() {
     const [user, setUser] = useState(null)
