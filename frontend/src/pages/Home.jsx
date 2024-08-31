@@ -27,7 +27,7 @@ function Home() {
             if(tokenData.data){
               const filteredToken = tokenData.data.filter(data => data.token === FCMToken)
               if(!filteredToken[0]){
-                const tokenPost = await api.post('/api/save-token/', {FCMToken})
+                const tokenPost = await api.post('/api/save-token/', {token:FCMToken})
               }
             }
           }
