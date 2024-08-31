@@ -18,14 +18,17 @@ import OrderUpdate from './pages/OrderUpdate'
 import { onMessage, getToken } from 'firebase/messaging'
 import { messaging } from './firebase'
 import toast, { Toaster } from 'react-hot-toast'
+import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants'
 
 function Logout() {
-  localStorage.clear()
+  localStorage.removeItem(ACCESS_TOKEN)
+  localStorage.removeItem(REFRESH_TOKEN)
   return <Navigate to ='/initial' />
 }
 
 function RegisterAndLogout() {
-  localStorage.clear()
+  localStorage.removeItem(ACCESS_TOKEN)
+  localStorage.removeItem(REFRESH_TOKEN)
   return <Register />
 }
 
