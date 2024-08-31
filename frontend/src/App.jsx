@@ -15,7 +15,7 @@ import OrderCreate from './pages/OrderCreate'
 import WorkerCompletedOrders from './pages/WorkerCompletedOrders'
 import OrderDetail from './pages/OrderDetail'
 import OrderUpdate from './pages/OrderUpdate'
-import { onMessage } from 'firebase/messaging'
+import { onMessage, getToken } from 'firebase/messaging'
 import { messaging } from './firebase'
 import toast, { Toaster } from 'react-hot-toast'
 
@@ -43,11 +43,15 @@ const notificationCheck = () => {
 }
 
 function App() {
-  useEffect (() => {
+  useEffect (async () => {
     onMessage(messaging, (payload) => {
       console.log('Message received. ', payload)
       toast.success(payload.data.body)
     })
+    const FCMToken = await getToken(messaging, {
+      vapidKey: import.meta.env.VITE_VAPID_KEY
+    })
+    localStorage.setItem('FCM Token', FCMToken)
     if(!isIOS) {
       notificationCheck()
     } else if (isIOS && isStandAlone) {
