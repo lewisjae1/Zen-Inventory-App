@@ -4,6 +4,8 @@ import ZenLogo from '../assets/ZenRamen_Logo1024_1.jpg'
 import LoadingIndicator from '../components/LoadingIndicator'
 import { useNavigate } from 'react-router-dom'
 import api from '../api'
+import { getToken } from 'firebase/messaging'
+import { messaging } from '../firebase'
 
 function Home() {
     const [user, setUser] = useState(null)

@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants'
 import '../styles/Form.css'
 import LoadingIndicator from './LoadingIndicator'
+import { getToken } from 'firebase/messaging'
+import { messaging } from '../firebase'
 
 function Form({route, method}) {
     const [username, setUsername] = useState('')
