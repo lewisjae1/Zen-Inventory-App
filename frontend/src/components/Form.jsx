@@ -53,7 +53,9 @@ function Form({route, method}) {
                 localStorage.setItem(ACCESS_TOKEN, res.data.access)
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh)
                 if(!isIOS || isStandAlone) {
-                    const token = localStorage.getItem('FCM Token')
+                    const token = await getToken(messaging, {
+                        vapidKey: import.meta.env.VITE_VAPID_KEY
+                    })
                     const tokenPost = await api.post('/api/save-token/', {token})
                 }
                 navigate('/')
