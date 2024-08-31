@@ -84,6 +84,7 @@ function OrderList({page, role}) {
                     <option value="Tumwater">Tumwater</option>
                     <option value="University Place">University Place</option>
                     <option value="Shelton">Shelton</option>
+                    <option value="Bremerton">Bremerton</option>
                 </select>
                 <label>Location 지점</label>
             </div>}
