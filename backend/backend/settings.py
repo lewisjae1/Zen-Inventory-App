@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-%_(2g$b@v=%9=1!azr-1e3t#ggqk_@7_8a413r_#tvilo+13g3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['zen-inventory-app-07de1cddb543.herokuapp.com', '127.0.0.1:8000', 'zeninventoryapp.com']
 

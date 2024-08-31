@@ -18,6 +18,24 @@ function LoginStatus() {
 
     const handleClick = async () => {
       if (!isIOS || isStandAlone){
+        const jwtToken = localStorage.getItem(ACCESS_TOKEN)
+        const decoded = jwtDecode(jwtToken)
+        const tokenExpiration = decoded.exp
+        const now = Date.now() / 1000
+
+        if(tokenExpiration < now) {
+          const refreshToken = localStorage.getItem(REFRESH_TOKEN)
+          try {
+              const res = await api.post('/api/token/refresh/', {
+                  refresh: refreshToken,
+              })
+              if (res.status === 200) {
+                  localStorage.setItem(ACCESS_TOKEN, res.data.access)
+              }
+          } catch (error) {
+              console.log(error)
+          }
+        }
         const token = await getToken(messaging, {
           vapidKey: import.meta.env.VITE_VAPID_KEY
         })
