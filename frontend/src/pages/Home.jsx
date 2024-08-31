@@ -25,7 +25,7 @@ function Home() {
             const tokenData = await api.get('/api/get-token/')
             const FCMToken = localStorage.getItem('FCM Token')
             if(tokenData.data){
-              const filteredToken = tokenData.data.filter(data => data.token === token)
+              const filteredToken = tokenData.data.filter(data => data.token === FCMToken)
               if(!filteredToken[0]){
                 const tokenPost = await api.post('/api/save-token/', {FCMToken})
               }
