@@ -54,7 +54,7 @@ function App() {
     try{const FCMToken = await getToken(messaging, {
       vapidKey: import.meta.env.VITE_VAPID_KEY
     })}catch(error) {
-      console.error(error)
+      alert(error)
     }
     localStorage.setItem('FCM Token', FCMToken)
     if(!isIOS) {
