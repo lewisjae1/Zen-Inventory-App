@@ -25,17 +25,14 @@ function Home() {
           if (userData) {
             setUser(userData[0])
             const tokenData = await api.get('/api/get-token/')
-            if(!localStorage.getItem('FCM Token')){
-              const FCMToken = await getToken(messaging, {
-                vapidKey: import.meta.env.VITE_VAPID_KEY
-              })
-              localStorage.setItem('FCM Token', FCMToken)
-            }
+            const FCMToken = await getToken(messaging, {
+              vapidKey: import.meta.env.VITE_VAPID_KEY
+            })
             
             if(tokenData.data){
               const filteredToken = tokenData.data.filter(data => data.token === FCMToken)
               if(!filteredToken[0]){
-                const tokenPost = await api.post('/api/save-token/', {token:localStorage.getItem('FCM Token')})
+                const tokenPost = await api.post('/api/save-token/', {token:FCMToken})
               }
             }
           }
