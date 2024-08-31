@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants'
 import '../styles/Form.css'
 import LoadingIndicator from './LoadingIndicator'
-import { getToken } from 'firebase/messaging'
-import { messaging } from '../firebase'
 
 function Form({route, method}) {
     const [username, setUsername] = useState('')
@@ -55,9 +53,7 @@ function Form({route, method}) {
                 localStorage.setItem(ACCESS_TOKEN, res.data.access)
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh)
                 if(!isIOS || isStandAlone) {
-                    const token = await getToken(messaging, {
-                        vapidKey: import.meta.env.VITE_VAPID_KEY
-                    })
+                    const token = localStorage.getItem('FCM Token')
                     const tokenPost = await api.post('/api/save-token/', {token})
                 }
                 navigate('/')
