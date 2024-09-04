@@ -164,7 +164,7 @@ function OrderDetail() {
             </div>
         </div>
         {(role === 'manager' && !order.isCompleted)&&
-        <button onClick={() => markComplete()} className="btn">Marked as Complete 완료 처리</button>}
+        <button onClick={() => markComplete()} className="btn">Mark as Completed 완료 처리</button>}
         {(role === 'worker' && !order.isCompleted)&&
         <button onClick={() => directUpdate()} className="btn">Update 수정</button>}
         <button onClick={() => directHome()} className="btn">Home 홈페이지</button>
