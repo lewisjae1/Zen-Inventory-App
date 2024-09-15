@@ -21,20 +21,20 @@ function Home() {
           fetchOrderProductData()
 
           const userData = await fetchUserData()
-          const FCMToken = ''
 
           if (userData) {
             setUser(userData[0])
             const tokenData = await api.get('/api/get-token/')
             if(Notification.permission === 'granted'){
-              FCMToken = await getToken(messaging, {
+              const FCMToken = await getToken(messaging, {
                 vapidKey: import.meta.env.VITE_VAPID_KEY
               })
-            }
-            
-            if(tokenData.data && Notification.permission === 'granted'){
-              const filteredToken = tokenData.data.filter(data => data.token === FCMToken)
-              if(!filteredToken[0]){
+              if(tokenData){
+                const filteredToken = tokenData.data.filter(data => data.token === FCMToken)
+                if(!filteredToken[0]){
+                  const tokenPost = await api.post('/api/save-token/', {token:FCMToken})
+                }
+              } else {
                 const tokenPost = await api.post('/api/save-token/', {token:FCMToken})
               }
             }
