@@ -21,12 +21,13 @@ function Home() {
           fetchOrderProductData()
 
           const userData = await fetchUserData()
+          const FCMToken = ''
 
           if (userData) {
             setUser(userData[0])
             const tokenData = await api.get('/api/get-token/')
             if(Notification.permission === 'granted'){
-              const FCMToken = await getToken(messaging, {
+              FCMToken = await getToken(messaging, {
                 vapidKey: import.meta.env.VITE_VAPID_KEY
               })
             }
