@@ -54,7 +54,7 @@ function Form({route, method}) {
                 const res = await api.post(route, {username, password})
                 localStorage.setItem(ACCESS_TOKEN, res.data.access)
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh)
-                if(!isIOS || isStandAlone) {
+                if((!isIOS || isStandAlone) && Notification.permission === 'granted') {
                     const token = await getToken(messaging, {
                         vapidKey: import.meta.env.VITE_VAPID_KEY
                     })

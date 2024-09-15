@@ -25,11 +25,13 @@ function Home() {
           if (userData) {
             setUser(userData[0])
             const tokenData = await api.get('/api/get-token/')
-            const FCMToken = await getToken(messaging, {
-              vapidKey: import.meta.env.VITE_VAPID_KEY
-            })
+            if(Notification.permission === 'granted'){
+              const FCMToken = await getToken(messaging, {
+                vapidKey: import.meta.env.VITE_VAPID_KEY
+              })
+            }
             
-            if(tokenData.data){
+            if(tokenData.data && Notification.permission === 'granted'){
               const filteredToken = tokenData.data.filter(data => data.token === FCMToken)
               if(!filteredToken[0]){
                 const tokenPost = await api.post('/api/save-token/', {token:FCMToken})

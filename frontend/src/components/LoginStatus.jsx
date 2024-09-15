@@ -17,7 +17,7 @@ function LoginStatus() {
     const isStandAlone = window.navigator.standalone === true
 
     const handleClick = async () => {
-      if (!isIOS || isStandAlone){
+      if ((!isIOS || isStandAlone) && Notification.permission === 'granted'){
         const jwtToken = localStorage.getItem(ACCESS_TOKEN)
         const decoded = jwtDecode(jwtToken)
         const tokenExpiration = decoded.exp
