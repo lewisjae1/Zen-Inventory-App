@@ -54,7 +54,7 @@ function App() {
     })
     if(!isIOS) {
       notificationCheck()
-    } else if (isIOS && isStandAlone && Notification.permission === 'denied') {
+    } else if (isIOS && isStandAlone && Notification.permission === ('denied' || 'default')) {
       alert('Welcome! If You Haven\'t Allowed Notification Please Do So by Enable Notfication.\n' +
             '환영합니다! 아직 알림 설정을 안하셨다면 알림 설정 버튼을 통해 해주세요!.\n')
     }
@@ -116,7 +116,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       {
-        (isIOS && isStandAlone && Notification.permission === 'denied') &&
+        (isIOS && isStandAlone && Notification.permission === ('denied' || 'default')) &&
         <IOSNotification />
       }
       <Footer />
