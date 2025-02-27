@@ -15,6 +15,7 @@ import OrderCreate from './pages/OrderCreate'
 import WorkerCompletedOrders from './pages/WorkerCompletedOrders'
 import OrderDetail from './pages/OrderDetail'
 import OrderUpdate from './pages/OrderUpdate'
+import IOSNotification from './components/IOSNotification'
 import { onMessage } from 'firebase/messaging'
 import { messaging } from './firebase'
 import toast, { Toaster } from 'react-hot-toast'
@@ -51,7 +52,9 @@ function App() {
       console.log('Message received. ', payload)
       toast.success(payload.data.body)
     })
-    if (isStandAlone) {
+    if(!isIOS) {
+      notificationCheck()
+    } else if (isIOS && isStandAlone) {
       alert('Welcome! If You Haven\'t Allowed Notification Please Do So by Going to Settings > Zen Inventory > Notification > Allow Notification\n' +
             'If You Have Done So, Please Disregard This Message.\n' +
             'First Time User Will be Asked To Allow Notification When Logging in\n' +
@@ -59,7 +62,6 @@ function App() {
             '처음 사용하는 유저는 로그인 할때 알림 허용 하라는 메시지가 나올것입니다.\n' +
             '이미 하셨다면, 이 메시지를 무시 해주세요.')
     }
-    notificationCheck()
   }, [])
 
   return (
@@ -117,6 +119,10 @@ function App() {
           <Route path='*' element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+      {
+        (isIOS && isStandAlone) &&
+        <IOSNotification />
+      }
       <Footer />
     </div>
   )
