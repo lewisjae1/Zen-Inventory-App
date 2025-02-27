@@ -10,7 +10,7 @@ function IOSNotification() {
     }
 
     return <div>
-        <button onClick={() => notifRequest()} className="btn">Home 홈페이지</button>
+        <button onClick={() => notifRequest()} className="btn">Enable Notification 알림 설정</button>
     </div>
 }
 

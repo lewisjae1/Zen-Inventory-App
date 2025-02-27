@@ -54,13 +54,9 @@ function App() {
     })
     if(!isIOS) {
       notificationCheck()
-    } else if (isIOS && isStandAlone) {
-      alert('Welcome! If You Haven\'t Allowed Notification Please Do So by Going to Settings > Zen Inventory > Notification > Allow Notification\n' +
-            'If You Have Done So, Please Disregard This Message.\n' +
-            'First Time User Will be Asked To Allow Notification When Logging in\n' +
-            '환영합니다! 아직 알림 설정을 안하셨다면 해주세요! 설정 > Zen Inventory > 알림 > 알림 허용.\n' +
-            '처음 사용하는 유저는 로그인 할때 알림 허용 하라는 메시지가 나올것입니다.\n' +
-            '이미 하셨다면, 이 메시지를 무시 해주세요.')
+    } else if (isIOS && isStandAlone && Notification.permission === 'denied') {
+      alert('Welcome! If You Haven\'t Allowed Notification Please Do So by Enable Notfication.\n' +
+            '환영합니다! 아직 알림 설정을 안하셨다면 알림 설정 버튼을 통해 해주세요!.\n')
     }
   }, [])
 
@@ -120,7 +116,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       {
-        (isIOS && isStandAlone) &&
+        (isIOS && isStandAlone && Notification.permission === 'denied') &&
         <IOSNotification />
       }
       <Footer />
