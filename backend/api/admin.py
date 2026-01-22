@@ -1,6 +1,12 @@
 from django.contrib import admin
 from .models import *
 # Register your models here.
+class UserRoleAdmin(admin.ModelAdmin):
+  list_display = [
+    'user',
+    'role'
+  ]
+
 class OrderAdmin(admin.ModelAdmin):
   list_display = [
     'user',
@@ -29,6 +35,7 @@ class FCMTokenAdmin(admin.ModelAdmin):
     'token'
   ]
 
+admin.site.register(UserRole, UserRoleAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(OrderProduct, OrderProductAdmin)
