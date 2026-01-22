@@ -16,5 +16,6 @@ urlpatterns = [
     path('deleteexpiredorders/', DeleteExpiredOrder.as_view(), name='delete-expired-orders'),
     path('save-token/', SaveFCMToken.as_view(), name = 'save-token'),
     path('get-token/', GetFCMToken.as_view(), name='get-token'),
-    path('delete-token/<int:pk>/', DeleteFCMToken.as_view(), name = 'delete-token')
+    path('delete-token/<int:pk>/', DeleteFCMToken.as_view(), name = 'delete-token'),
+    path("userrole/register/", CreateUserRoleView.as_view(), name="register-user-role")
 ]

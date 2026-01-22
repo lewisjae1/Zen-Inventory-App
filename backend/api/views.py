@@ -107,6 +107,11 @@ class CreateUserView(generics.CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
 
+class CreateUserRoleView(generics.CreateAPIView):
+    queryset = UserRole.objects.all()
+    serializer_class = UserRoleSerializer
+    permission_classes = [AllowAny]
+
 class ListUserView(generics.ListAPIView):
     serializer_class = UserSerializer
     authentication_classes = [JWTAuthentication]
