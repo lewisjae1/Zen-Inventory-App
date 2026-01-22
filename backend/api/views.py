@@ -112,6 +112,15 @@ class CreateUserRoleView(generics.CreateAPIView):
     serializer_class = UserRoleSerializer
     permission_classes = [AllowAny]
 
+class ListUserRoleView(generics.ListAPIView):
+    serializer_class = UserRoleSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return UserRole.objects.filter(user=self.request.user.id)
+    
+
 class ListUserView(generics.ListAPIView):
     serializer_class = UserSerializer
     authentication_classes = [JWTAuthentication]
