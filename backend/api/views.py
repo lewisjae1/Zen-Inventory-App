@@ -120,6 +120,12 @@ class ListUserRoleView(generics.ListAPIView):
     def get_queryset(self):
         return UserRole.objects.filter(user=self.request.user.id)
     
+class ListAllUserRoleView(generics.ListAPIView):
+    serializer_class = UserRoleSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = UserRole.objects.all()
+    
 
 class ListUserView(generics.ListAPIView):
     serializer_class = UserSerializer
