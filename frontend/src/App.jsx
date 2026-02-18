@@ -16,6 +16,7 @@ import WorkerCompletedOrders from './pages/WorkerCompletedOrders'
 import OrderDetail from './pages/OrderDetail'
 import OrderUpdate from './pages/OrderUpdate'
 import IOSNotification from './components/IOSNotification'
+import UserRoles from './pages/UserRoles'
 import { onMessage } from 'firebase/messaging'
 import { messaging } from './firebase'
 import toast, { Toaster } from 'react-hot-toast'
@@ -47,7 +48,7 @@ const notificationCheck = () => {
 }
 
 function App() {
-  useEffect (async () => {
+  useEffect (() => {
     onMessage(messaging, (payload) => {
       console.log('Message received. ', payload)
       toast.success(payload.data.body)
@@ -106,6 +107,12 @@ function App() {
             path='/orderupdate/:orderId'
             element={<ProtectedRoute>
               <OrderUpdate />
+            </ProtectedRoute>} 
+          />
+          <Route
+            path='/userroles'
+            element={<ProtectedRoute>
+              <UserRoles />
             </ProtectedRoute>} 
           />
           <Route path='/initial' element={<Initial />} />
