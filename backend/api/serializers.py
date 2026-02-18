@@ -106,7 +106,7 @@ class OrderProductUpdateSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'productName']
+        fields = ['id', 'productName', 'price']
 
 class FCMTokenSerializer(serializers.ModelSerializer):
     class Meta:
