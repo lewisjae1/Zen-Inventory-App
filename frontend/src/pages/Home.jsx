@@ -8,7 +8,6 @@ import { getToken } from 'firebase/messaging'
 import { messaging } from '../firebase'
 
 function Home() {
-    const [user, setUser] = useState(null)
     const [userRole, setUserRole] = useState(null)
     const [order, setOrder] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -27,7 +26,6 @@ function Home() {
           setUserRole(userRoleData[0])
 
           if (userData) {
-            setUser(userData[0])
             const tokenData = await api.get('/api/get-token/')
             if(Notification.permission === 'granted'){
               const FCMToken = await getToken(messaging, {
@@ -44,7 +42,7 @@ function Home() {
             }
           }
 
-          if(userData[0].username !== 'Jamie' || userData[0].username !== 'Scott'){
+          if(userRoleData[0] !== 'Basic'){
             const orderData = await fetchOrderData()
             if(orderData) {
               const filteredOrder = orderData.filter(order => order.isCompleted === false)
