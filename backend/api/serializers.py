@@ -17,6 +17,11 @@ class UserRoleSerializer(serializers.ModelSerializer):
         model = UserRole
         fields = ['id', 'user', 'role']
 
+class UserRoleUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserRole
+        fields = ['id', 'user', 'role']
+
 class OrderManagerUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order

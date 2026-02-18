@@ -19,5 +19,6 @@ urlpatterns = [
     path('delete-token/<int:pk>/', DeleteFCMToken.as_view(), name = 'delete-token'),
     path('userrole/register/', CreateUserRoleView.as_view(), name="register-user-role"),
     path('userrole/', ListUserRoleView.as_view(), name='user-role'),
-    path('alluserroles/', ListAllUserRoleView.as_view(), name='all-user-role')
+    path('alluserroles/', ListAllUserRoleView.as_view(), name='all-user-role'),
+    path('userrole/update/<int:pk>/', UpdateUserRoleView.as_view(), name='user-role-update')
 ]

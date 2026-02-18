@@ -34,7 +34,7 @@ class OrderListCreate(generics.ListCreateAPIView):
 
     def get_queryset(self):
         # Managers have full access to all objects
-        if(self.request.user.username == 'Jamie' or self.request.user.username == 'Scott' ):
+        if(self.request.user.userrole_set.first().role == 'Admin' or self.request.user.userrole_set.first().role == 'Master'):
             return Order.objects.all()
         else:
             # Workers have access to only the order that belongs to themselves
@@ -45,7 +45,7 @@ class OrderListCreate(generics.ListCreateAPIView):
         if serializer.is_valid():
             instance = serializer.save(user=self.request.user)
             managerTokens = FCMToken.objects.filter(
-                Q(user__username = 'Jamie') | Q(user__username = 'Scott')
+                Q(user__userrole__role = 'Admin') | Q(user__userrole__role = 'Master')
             )
             workerTokens = FCMToken.objects.filter(user = instance.user)
             for token in managerTokens:
@@ -70,7 +70,7 @@ class OrderUpdate(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
-        if(self.request.user.username == 'Jamie' or self.request.user.username == 'Scott'):
+        if(self.request.user.userrole_set.first().role == 'Admin' or self.request.user.userrole_set.first().role == 'Master'):
             return OrderManagerUpdateSerializer
         else:
             return OrderSerializer
@@ -78,7 +78,7 @@ class OrderUpdate(generics.UpdateAPIView):
     def perform_update(self, serializer):
         if serializer.is_valid():
             instance = serializer.save()
-            if(self.request.user.username == 'Jamie' or self.request.user.username == 'Scott'):
+            if(self.request.user.userrole_set.first().role == 'Admin' or self.request.user.userrole_set.first().role == 'Master'):
                 workerTokens = FCMToken.objects.filter(user = instance.user)
                 for token in workerTokens:
                     sendFCMNotification(
@@ -89,7 +89,7 @@ class OrderUpdate(generics.UpdateAPIView):
                     )
             else:
                 managerTokens = FCMToken.objects.filter(
-                    Q(user__username = 'Jamie') | Q(user__username = 'Scott')
+                    Q(user__userrole__role = 'Admin') | Q(user__userrole__role = 'Master')
                 )
                 for token in managerTokens:
                     sendFCMNotification(
@@ -119,6 +119,25 @@ class ListUserRoleView(generics.ListAPIView):
 
     def get_queryset(self):
         return UserRole.objects.filter(user=self.request.user.id)
+    
+class UpdateUserRoleView(generics.UpdateAPIView):
+    queryset = UserRole.objects.all()
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserRoleUpdateSerializer
+
+    def perform_update(self, serializer):
+        if serializer.is_valid():
+            instance = serializer.save()
+            workerTokens = FCMToken.objects.filter(user = instance.user)
+            for token in workerTokens:
+                sendFCMNotification(
+                    token = token.token,
+                    title = 'Role Changed',
+                    body = f'Role has been changed to {instance.role}.\n권한이 {instance.role} 권한으로 수정되었습니다.',
+                    url = '/home'
+                )
+        else:
+            print(serializer.errors)
     
 class ListAllUserRoleView(generics.ListAPIView):
     serializer_class = UserRoleSerializer
@@ -152,7 +171,7 @@ class ListOrderProduct(generics.ListAPIView):
     
     def get_queryset(self):
         # Managers have full access to all objects
-        if(self.request.user.username == 'Jamie' or self.request.user.username == 'Scott' ):
+        if(self.request.user.userrole_set.first().role == 'Admin' or self.request.user.userrole_set.first().role == 'Master'):
             return OrderProduct.objects.all()
         else:
             # Workers have access to only the order that belongs to themselves
