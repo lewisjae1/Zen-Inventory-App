@@ -41,6 +41,7 @@ class Order(models.Model):
 
 class Product(models.Model):
     productName = models.CharField(max_length=50, null=False)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
 
     def __str__(self) -> str:
         return str(self.id)
