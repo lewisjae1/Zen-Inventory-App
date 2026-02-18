@@ -16,10 +16,12 @@ import WorkerCompletedOrders from './pages/WorkerCompletedOrders'
 import OrderDetail from './pages/OrderDetail'
 import OrderUpdate from './pages/OrderUpdate'
 import IOSNotification from './components/IOSNotification'
+import UserRoles from './pages/UserRoles'
 import { onMessage } from 'firebase/messaging'
 import { messaging } from './firebase'
 import toast, { Toaster } from 'react-hot-toast'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants'
+import UserRolesUpdate from './pages/UserRolesUpdate'
 
 function Logout() {
   localStorage.removeItem(ACCESS_TOKEN)
@@ -47,7 +49,7 @@ const notificationCheck = () => {
 }
 
 function App() {
-  useEffect (async () => {
+  useEffect (() => {
     onMessage(messaging, (payload) => {
       console.log('Message received. ', payload)
       toast.success(payload.data.body)
@@ -106,6 +108,18 @@ function App() {
             path='/orderupdate/:orderId'
             element={<ProtectedRoute>
               <OrderUpdate />
+            </ProtectedRoute>} 
+          />
+          <Route
+            path='/userroles'
+            element={<ProtectedRoute>
+              <UserRoles />
+            </ProtectedRoute>} 
+          />
+          <Route
+            path='/userrole/:userId'
+            element={<ProtectedRoute>
+              <UserRolesUpdate />
             </ProtectedRoute>} 
           />
           <Route path='/initial' element={<Initial />} />

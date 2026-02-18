@@ -9,6 +9,24 @@ export const fetchUserData = async () => {
     }
 }
 
+export const fetchUserRoleData = async () => {
+    try {
+        const res = await api.get('api/userrole/')
+        return res.data
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+export const fetchAllUserRoleData = async () => {
+    try {
+        const res = await api.get('api/alluserroles/')
+        return res.data
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 export const fetchAllUsersData = async () => {
     try {
         const res = await api.get('api/allusers/')

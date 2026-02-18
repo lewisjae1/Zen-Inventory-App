@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { fetchUserData, fetchOrderData, fetchOrderProductData,fetchProductData } from '../utils/dataFetchutils'
+import { fetchUserData, fetchOrderData, fetchOrderProductData,fetchProductData, fetchUserRoleData } from '../utils/dataFetchutils'
 import ZenLogo from '../assets/ZenRamen_Logo1024_1.jpg'
 import LoadingIndicator from '../components/LoadingIndicator'
 import { useNavigate } from 'react-router-dom'
@@ -8,7 +8,7 @@ import { getToken } from 'firebase/messaging'
 import { messaging } from '../firebase'
 
 function Home() {
-    const [user, setUser] = useState(null)
+    const [userRole, setUserRole] = useState(null)
     const [order, setOrder] = useState(null)
     const [loading, setLoading] = useState(true)
 
@@ -21,9 +21,11 @@ function Home() {
           fetchOrderProductData()
 
           const userData = await fetchUserData()
+          const userRoleData = await fetchUserRoleData()
+
+          setUserRole(userRoleData[0])
 
           if (userData) {
-            setUser(userData[0])
             const tokenData = await api.get('/api/get-token/')
             if(Notification.permission === 'granted'){
               const FCMToken = await getToken(messaging, {
@@ -40,7 +42,7 @@ function Home() {
             }
           }
 
-          if(userData[0].username !== 'Jamie' || userData[0].username !== 'Scott'){
+          if(userRoleData[0] !== 'Basic'){
             const orderData = await fetchOrderData()
             if(orderData) {
               const filteredOrder = orderData.filter(order => order.isCompleted === false)
@@ -65,6 +67,8 @@ function Home() {
           navigate('/order/' + order.id + '/worker')
         } else if (route === 'WorkerCompletedOrder') {
           navigate('/workercompletedorders')
+        } else if (route === 'UserRoleMapping'){
+          navigate('/userroles')
         }
     }
 
@@ -76,11 +80,18 @@ function Home() {
       return <div className='initialDiv'><LoadingIndicator /></div>
     }
 
-    if(user.username === 'Jamie' || user.username === 'Scott'){
+    if(userRole.role == "Master"){
           return <div className='initialDiv'>
               <img src={ZenLogo} alt='Logo' width={200} height={100}/>
               <button onClick={() => handleClick('ManagerPendingOrder')} className="btn">Pending Order List 미완료 주문 목록</button>
               <button onClick={() => handleClick('ManagerCompletedOrder')} className="btn">Completed Order List 완료 주문 목록</button>
+              <button onClick={() => handleClick('UserRoleMapping')} className="btn">User Role Mapping 유저 권한 부여</button>
+          </div>
+    } else if(userRole.role == 'Admin'){
+          return <div className='initialDiv'>
+                  <img src={ZenLogo} alt='Logo' width={200} height={100}/>
+                  <button onClick={() => handleClick('ManagerPendingOrder')} className="btn">Pending Order List 미완료 주문 목록</button>
+                  <button onClick={() => handleClick('ManagerCompletedOrder')} className="btn">Completed Order List 완료 주문 목록</button>
           </div>
     }
 

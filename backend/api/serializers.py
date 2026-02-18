@@ -12,6 +12,16 @@ class UserSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
         return user
 
+class UserRoleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserRole
+        fields = ['id', 'user', 'role']
+
+class UserRoleUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserRole
+        fields = ['id', 'user', 'role']
+
 class OrderManagerUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order

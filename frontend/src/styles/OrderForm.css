@@ -5,7 +5,8 @@
 }
 
 .login-box #orderCreateBox.user-box input:focus ~ label,
-.login-box #orderCreateBox.user-box input:valid ~ label {
+.login-box #orderCreateBox.user-box input:valid ~ label,
+.login-box #orderCreateBox.user-box input:disabled ~ label{
     color: black;
 }
 
