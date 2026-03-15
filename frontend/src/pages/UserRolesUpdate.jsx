@@ -1,4 +1,4 @@
-import { fetchOrderProductData, fetchProductData, fetchOrderData, fetchUserRoleData, fetchUserData, fetchAllUserRoleData, fetchAllUsersData } from '../utils/dataFetchutils'
+import { fetchUserRoleData, fetchAllUserRoleData, fetchAllUsersData } from '../utils/dataFetchutils'
 import { useEffect, useState } from 'react'
 import LoadingIndicator from '../components/LoadingIndicator'
 import '../styles/OrderForm.css'
