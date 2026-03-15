@@ -22,6 +22,7 @@ import { messaging } from './firebase'
 import toast, { Toaster } from 'react-hot-toast'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants'
 import UserRolesUpdate from './pages/UserRolesUpdate'
+import ProductList from './pages/ProductList'
 
 function Logout() {
   localStorage.removeItem(ACCESS_TOKEN)
@@ -120,6 +121,12 @@ function App() {
             path='/userrole/:userId'
             element={<ProtectedRoute>
               <UserRolesUpdate />
+            </ProtectedRoute>} 
+          />
+          <Route
+            path='/productList'
+            element={<ProtectedRoute>
+              <ProductList />
             </ProtectedRoute>} 
           />
           <Route path='/initial' element={<Initial />} />
