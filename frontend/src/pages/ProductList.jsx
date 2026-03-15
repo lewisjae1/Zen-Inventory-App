@@ -8,10 +8,6 @@ function ProductList() {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
-    
-    const directDetails = (userId) => {
-        navigate('/userrole/' + userId + '/')
-    }
 
     const direct = (productId, method) => {
         if (method === 'new'){
