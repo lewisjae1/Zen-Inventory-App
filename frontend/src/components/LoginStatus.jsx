@@ -41,8 +41,10 @@ function LoginStatus() {
         })
         const tokenData = await api.get('/api/get-token/')
         if(tokenData.data){
-          const filteredToken = tokenData.data.filter(data => data.token === token)
-          const res = await api.delete('/api/delete-token/' + filteredToken[0].id + '/')
+          if(tokenData.data.includes(token)){
+            const filteredToken = tokenData.data.filter(data => data.token === token)
+            const res = await api.delete('/api/delete-token/' + filteredToken[0].id + '/')
+          }
         }
       }   
       setUser(null)
