@@ -50,7 +50,7 @@ function OrderForm({method, route}) {
       }
     
     const handleProductChange = (e) => {
-      const productId = e.target.name;
+      const productId = parseInt(e.target.name)
       const numProduct = parseInt(e.target.value)
 
       setOrderProduct(prev => {
@@ -140,6 +140,7 @@ function OrderForm({method, route}) {
                     <input 
                         type='number'
                         name={product.id}
+                        value={orderProducts[orderProducts.findIndex(item => item.product === product.id)] && orderProducts[orderProducts.findIndex(item => item.product === product.id)].numProduct}
                         onChange={handleProductChange}
                         defaultValue={(method === 'update' && orderProducts[orderProducts.findIndex(
                           orderProduct => orderProduct.product === product.id)]) && orderProducts[orderProducts.findIndex(
@@ -153,6 +154,7 @@ function OrderForm({method, route}) {
                 <div className='user-box' id='orderCreateBox'>
                     <input 
                         type='text'
+                        value={additionalMessage}
                         onChange={(e) => setAddtionalMessage(e.target.value)}
                         defaultValue={additionalMessage && additionalMessage}
                     />

@@ -86,6 +86,7 @@ function Form({route, method}) {
                 <div className="user-box">
                     <input 
                         type='text'
+                        value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
                     />
@@ -94,6 +95,7 @@ function Form({route, method}) {
                 <div className="user-box">
                     <input 
                         type='password'
+                        value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
@@ -103,6 +105,7 @@ function Form({route, method}) {
                     <div className="user-box">
                     <input 
                         type='text'
+                        value={accessCode}
                         onChange={(e) => setAccessCode(e.target.value)}
                         required
                     />
