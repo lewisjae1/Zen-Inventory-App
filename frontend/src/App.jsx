@@ -23,6 +23,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants'
 import UserRolesUpdate from './pages/UserRolesUpdate'
 import ProductList from './pages/ProductList'
+import ProductCreate from './pages/ProductCreate'
 
 function Logout() {
   localStorage.removeItem(ACCESS_TOKEN)
@@ -127,6 +128,12 @@ function App() {
             path='/productList'
             element={<ProtectedRoute>
               <ProductList />
+            </ProtectedRoute>} 
+          />
+          <Route
+            path='/create-product'
+            element={<ProtectedRoute>
+              <ProductCreate />
             </ProtectedRoute>} 
           />
           <Route path='/initial' element={<Initial />} />
