@@ -12,6 +12,7 @@ urlpatterns = [
     path('user/', ListUserView.as_view(), name='user-detail'),
     path('allusers/', ListAllUserView.as_view(), name='all-users-detail'),
     path('product/', ListProductView.as_view(), name='product-list'),
+    path("product/create/", ProductCreate.as_view(), name="product-create"),
     path('orderproduct/', ListOrderProduct.as_view(), name='order-product'),
     path('deleteexpiredorders/', DeleteExpiredOrder.as_view(), name='delete-expired-orders'),
     path('save-token/', SaveFCMToken.as_view(), name = 'save-token'),

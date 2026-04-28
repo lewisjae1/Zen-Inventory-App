@@ -28,6 +28,10 @@ def sendFCMNotification(token, title, body, url):
     else:
         return response
 
+class ProductCreate(generics.CreateAPIView):
+    serializer_class = ProductSerializer
+    permission_classes= [IsAuthenticated, IsAdminRole]
+
 # Create your views here.
 class OrderListCreate(generics.ListCreateAPIView):
     serializer_class = OrderSerializer
