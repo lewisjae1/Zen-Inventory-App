@@ -36,6 +36,8 @@ function OrderDetail() {
                 filteredOrderProductData.some(orderProduct => orderProduct.product === product.id)
             )
 
+            filteredProductData.sort((a, b) => a.id - b.id)
+
             if(filteredOrderData && filteredOrderProductData && filteredProductData){
                 setOrder(filteredOrderData[0])
                 setOrderProducts(filteredOrderProductData)
