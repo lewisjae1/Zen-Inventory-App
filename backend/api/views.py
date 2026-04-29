@@ -30,7 +30,12 @@ def sendFCMNotification(token, title, body, url):
 
 class ProductCreate(generics.CreateAPIView):
     serializer_class = ProductSerializer
-    permission_classes= [IsAuthenticated, IsAdminRole]
+    permission_classes = [IsAuthenticated, IsAdminRole]
+
+class ProductUpdate(generics.UpdateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated, IsAdminRole]
 
 # Create your views here.
 class OrderListCreate(generics.ListCreateAPIView):
