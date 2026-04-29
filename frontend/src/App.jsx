@@ -24,6 +24,7 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants'
 import UserRolesUpdate from './pages/UserRolesUpdate'
 import ProductList from './pages/ProductList'
 import ProductCreate from './pages/ProductCreate'
+import ProductUpdate from './pages/ProductUpdate'
 
 function Logout() {
   localStorage.removeItem(ACCESS_TOKEN)
@@ -134,6 +135,12 @@ function App() {
             path='/create-product'
             element={<ProtectedRoute>
               <ProductCreate />
+            </ProtectedRoute>} 
+          />
+          <Route
+            path='/update-product/:productId'
+            element={<ProtectedRoute>
+              <ProductUpdate />
             </ProtectedRoute>} 
           />
           <Route path='/initial' element={<Initial />} />
