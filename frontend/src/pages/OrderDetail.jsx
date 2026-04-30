@@ -177,7 +177,7 @@ function OrderDetail() {
                 <div className="card__left__worker__detail">
                     {products.map(product => (
                         <div key={product.id} className='item'>
-                            ${product.price * orderProducts[orderProducts.findIndex(orderProduct => orderProduct.product === product.id)].numProduct}
+                            ${(product.price * orderProducts[orderProducts.findIndex(orderProduct => orderProduct.product === product.id)].numProduct).toFixed(2)}
                         </div>
                     ))}
                 </div>
