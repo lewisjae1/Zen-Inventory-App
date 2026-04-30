@@ -5,6 +5,7 @@ from rest_framework import generics
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import *
+from backend.permission import IsAdminRole
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.utils import timezone
 from rest_framework.response import Response
@@ -26,6 +27,20 @@ def sendFCMNotification(token, title, body, url):
         deleteToken.delete()
     else:
         return response
+
+class ProductCreate(generics.CreateAPIView):
+    serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated, IsAdminRole]
+
+class ProductUpdate(generics.UpdateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated, IsAdminRole]
+
+class ProductDelete(generics.DestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated, IsAdminRole]
 
 # Create your views here.
 class OrderListCreate(generics.ListCreateAPIView):
@@ -122,7 +137,7 @@ class ListUserRoleView(generics.ListAPIView):
     
 class UpdateUserRoleView(generics.UpdateAPIView):
     queryset = UserRole.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAdminRole]
     serializer_class = UserRoleUpdateSerializer
 
     def perform_update(self, serializer):
@@ -163,6 +178,11 @@ class ListAllUserView(generics.ListAPIView):
 class ListProductView(generics.ListAPIView):
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticated]
+    queryset = Product.objects.all()
+
+class CreateProductView(generics.CreateAPIView):
+    serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated, IsAdminRole]
     queryset = Product.objects.all()
 
 class ListOrderProduct(generics.ListAPIView):

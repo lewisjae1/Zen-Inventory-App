@@ -48,6 +48,7 @@ function Form({route, method}) {
                     alert('Incorrect Access Code\n맞지 않은 암호 입니다')
                 }else {
                     const res = await api.post(route, {username, password})
+                    const roleRes = await api.post('/api/userrole/register/', {user:res.data.id, role:"Basic"})
                     navigate('/login')
                 }
             } else {
@@ -85,6 +86,7 @@ function Form({route, method}) {
                 <div className="user-box">
                     <input 
                         type='text'
+                        value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
                     />
@@ -93,6 +95,7 @@ function Form({route, method}) {
                 <div className="user-box">
                     <input 
                         type='password'
+                        value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
@@ -102,6 +105,7 @@ function Form({route, method}) {
                     <div className="user-box">
                     <input 
                         type='text'
+                        value={accessCode}
                         onChange={(e) => setAccessCode(e.target.value)}
                         required
                     />

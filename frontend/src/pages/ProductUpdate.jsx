@@ -1,4 +1,4 @@
-import { fetchUserRoleData, fetchAllUserRoleData, fetchAllUsersData } from '../utils/dataFetchutils'
+import { fetchProductData, fetchUserRoleData } from '../utils/dataFetchutils'
 import { useEffect, useState } from 'react'
 import LoadingIndicator from '../components/LoadingIndicator'
 import '../styles/OrderForm.css'
@@ -6,55 +6,52 @@ import api from '../api'
 import { useNavigate, useParams } from 'react-router-dom'
 import NotFound from './NotFound'
 
-function UserRolesUpdate() {
-    const [userRole, setUserRole] = useState(null)
-    const [userName, setUserName] = useState(null)
-    const [role, setRole] = useState(null)
+function ProductUpdate() {
+    const [productName, setProductName] = useState(null)
+    const [price, setPrice] = useState(null)
+    const [isAdmin, setIsAdmin] = useState(false)
+    const {productId} = useParams()
     const navigate = useNavigate()
-    const {userId} = useParams()
     const [loading, setLoading] = useState(true)
     const [Completed, setCompleted] = useState(false)
-    const [permission, setPermission] = useState(true)
 
-    const getAllNecessaryData = async () => {
-        try {
-            const allUserRoleData = await fetchAllUserRoleData()
-            const userRoleData = await fetchUserRoleData()
-
-            const allUsers = await fetchAllUsersData()
-            
-            if (userRoleData[0].role != 'Master') {
-                setPermission(false)
-            }
-
-            const filteredUserRole = await allUserRoleData.filter(userRoles => userRoles.user == userId)
-            
-            const filteredUser = await allUsers.filter(users => users.id == userId)
-
-            setUserRole(filteredUserRole[0])
-
-            setUserName(filteredUser[0].username)
-
-        } catch (error) {
-          console.error(error)
-        } finally {
-          setLoading(false)
-        }
-      }
     
     const directHome = () => {
       navigate('/')
     }
 
+    const fetchRole = async () => {
+        try{
+            const userRole = await fetchUserRoleData()
+
+            if(userRole[0].role == 'Master' || userRole[0].role == 'Admin') {
+                setIsAdmin(true)
+            }
+        } catch (error) {
+          console.error(error)
+        }
+    }
+
+    const fetchProduct = async () => {
+        try{
+            const products = await fetchProductData()
+            const filteredProduct = products.filter(product => product.id == parseInt(productId))
+            setProductName(filteredProduct[0].productName)
+            setPrice(filteredProduct[0].price)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const handleSubmit = async (e) => {
       setLoading(true)
       e.preventDefault()
-      const userRoleData = {
-        user: userId,
-        role: role
+      const productData = {
+        productName: productName,
+        price: price
       }
       try {
-        const res = await api.put('api/userrole/update/' + userRole.id + '/', userRoleData)
+        const res = await api.put('api/product/update/' + productId + '/', productData)
         setCompleted(true)
       } catch(error) {
         console.log(error)
@@ -70,14 +67,16 @@ function UserRolesUpdate() {
     }
 
     useEffect(() => {
-        getAllNecessaryData()    
+        fetchRole()
+        fetchProduct()
+        setLoading(false)
       }, [])
 
     if(loading) {
         return <div className='orderCreateDiv'><LoadingIndicator /></div>
     }
 
-    if(permission == false) {
+    if(isAdmin == false) {
         return <div><NotFound /></div>
     }
 
@@ -98,27 +97,46 @@ function UserRolesUpdate() {
     return <div className='orderCreateDiv'>
         <div className='login-box'>
             <form onSubmit={handleSubmit}>
-                <h1>User Role Update<br/>유저 권한 수정</h1>
+                <h1>Product Update<br/>품목 수정</h1>
                 <div className='user-box' id='orderCreateBox'>
                     <input 
                         type= 'text'
-                        defaultValue={userName}
-                        disabled
+                        value={productName}
+                        onChange={(e) => setProductName(e.target.value)}
+                        required
                     />
-                    <label>Name 이름</label>
+                    <label>Product Name 품목 이름</label>
                 </div>
                 <div className='user-box' id='orderCreateBox'>
-                    <select defaultValue={userRole.role} onChange={(e) => setRole(e.target.value)} name="role" id="role">
-                        <option value=''>Field Required 입력 필수</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Basic">Basic</option>
-                    </select>
-                    <label>Location 지점</label>
+                    <input 
+                        type= 'number'
+                        value={price}
+                        inputMode='decimal'
+                        onChange={(e) => {
+                            let val = e.target.value
+
+                            if (!/^\d*\.?\d*$/.test(val)) return
+
+                            if (val.includes(".")) {
+                            const [int, dec] = val.split(".")
+                            if (dec.length > 2) return
+                            }
+
+                            setPrice(val)
+                        }}
+                        onBlur={() => {
+                            if (price) {
+                            setPrice(parseFloat(price).toFixed(2))
+                            }
+                        }}
+                        required
+                    />
+                    <label>Product Price 품목 가격</label>
                 </div>
                 {loading && <LoadingIndicator />}
                 <center>
                     <button className='formButton' type='submit'>
-                            권한 수정<br/>Role Update
+                            수정<br/>Update
                     </button>
                 </center>
             </form>
@@ -127,4 +145,4 @@ function UserRolesUpdate() {
     </div>
 }
 
-export default UserRolesUpdate
+export default ProductUpdate

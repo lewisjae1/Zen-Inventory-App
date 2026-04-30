@@ -13,6 +13,7 @@ function OrderForm({method, route}) {
     const [loading, setLoading] = useState(true)
     const [Completed, setCompleted] = useState(false)
     const [orders, setOrders] = useState([])
+    const [total, setTotal] = useState(0.00)
     const navigate = useNavigate()
     const {orderId} = useParams()
     const englishTitle = method === 'update' ? 'Order Update' : 'New Order'
@@ -25,6 +26,7 @@ function OrderForm({method, route}) {
     const getAllNecessaryData = async () => {
         try {
           const productData = await fetchProductData()
+          productData.sort((a, b) => a.id - b.id)
           const orderData = await fetchOrderData()
           if (productData && orderData) {
             setProducts(productData)
@@ -38,7 +40,10 @@ function OrderForm({method, route}) {
               setOrderProduct(filteredOP)
               if(filteredOrder[0].additionalMessage){
                 setAddtionalMessage(filteredOrder[0].additionalMessage)
-              }              
+              }
+              setTotal(filteredOP.reduce((sum,item) => {
+                return sum + productData[productData.findIndex(product => product.id == item.product)].price * item.numProduct
+              }, 0))              
               setLocation(filteredOrder[0].location)
             }
           }
@@ -50,7 +55,7 @@ function OrderForm({method, route}) {
       }
     
     const handleProductChange = (e) => {
-      const productId = e.target.name;
+      const productId = parseInt(e.target.name)
       const numProduct = parseInt(e.target.value)
 
       setOrderProduct(prev => {
@@ -61,6 +66,11 @@ function OrderForm({method, route}) {
         } else {
           updated.push({product:productId, numProduct})
         }
+
+        setTotal(updated.reduce((sum,item) => {
+          return sum + products[products.findIndex(product => product.id == item.product)].price * item.numProduct
+        }, 0))
+
         return updated
       })
     }
@@ -140,12 +150,14 @@ function OrderForm({method, route}) {
                     <input 
                         type='number'
                         name={product.id}
+                        value={orderProducts[orderProducts.findIndex(item => item.product === product.id)] && orderProducts[orderProducts.findIndex(item => item.product === product.id)].numProduct}
                         onChange={handleProductChange}
                         defaultValue={(method === 'update' && orderProducts[orderProducts.findIndex(
                           orderProduct => orderProduct.product === product.id)]) && orderProducts[orderProducts.findIndex(
                           orderProduct => orderProduct.product === product.id)].numProduct}
                     />
                     <label>{product.productName}</label>
+                    <span style={{position:'absolute', color: 'black'}}>Price: ${product.price}</span>
                     </div>
                     </li>
                 ))}
@@ -153,6 +165,16 @@ function OrderForm({method, route}) {
                 <div className='user-box' id='orderCreateBox'>
                     <input 
                         type='text'
+                        value= {`$${total.toFixed(2)}`}
+                        style={{color:'black'}}
+                        disabled
+                    />
+                    <label>Total Price</label>
+                </div>
+                <div className='user-box' id='orderCreateBox'>
+                    <input 
+                        type='text'
+                        value={additionalMessage}
                         onChange={(e) => setAddtionalMessage(e.target.value)}
                         defaultValue={additionalMessage && additionalMessage}
                     />

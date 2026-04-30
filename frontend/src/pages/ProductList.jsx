@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react'
 import '../styles/OrderList.css'
-import { fetchProductData } from '../utils/dataFetchutils'
+import { fetchProductData, fetchUserRoleData } from '../utils/dataFetchutils'
 import LoadingIndicator from '../components/LoadingIndicator'
 import { useNavigate } from 'react-router-dom'
 
 function ProductList() {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
+    const [isAdmin, setIsAdmin] = useState(false)
     const navigate = useNavigate()
-    
-    const directDetails = (userId) => {
-        navigate('/userrole/' + userId + '/')
-    }
 
     const direct = (productId, method) => {
         if (method === 'new'){
@@ -23,10 +20,19 @@ function ProductList() {
         }
     }
 
-    const getUserRoleAndUserData = async () => {
+    const getUserRoleAndProductData = async () => {
         const productsData = await fetchProductData()
-
+        productsData.sort((a, b) => a.id - b.id)
         setProducts(productsData)
+        try{
+            const userRole = await fetchUserRoleData()
+
+            if(userRole[0].role == 'Master' || userRole[0].role == 'Admin') {
+                setIsAdmin(true)
+            }
+        } catch (error) {
+          console.error(error)
+        }
         setLoading(false)
     }
 
@@ -35,11 +41,15 @@ function ProductList() {
     }
 
     useEffect(() => {
-        getUserRoleAndUserData()
+        getUserRoleAndProductData()
     }, [])
 
     if(loading) {
         return <div className='orderListDiv'><LoadingIndicator /></div>
+    }
+
+    if(isAdmin == false) {
+        return <div><NotFound /></div>
     }
 
     return <div className='orderListDiv'>
