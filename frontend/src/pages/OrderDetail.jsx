@@ -12,6 +12,7 @@ function OrderDetail() {
     const [products, setProducts] = useState([])
     const [order, setOrder] = useState(null)
     const [user, setUser] = useState(null)
+    const [total, setTotal] = useState(0.00)
     const [loading, setLoading] = useState(true)
     const [Completed, setCompleted] = useState(false)
     const navigate = useNavigate()
@@ -42,6 +43,9 @@ function OrderDetail() {
                 setOrder(filteredOrderData[0])
                 setOrderProducts(filteredOrderProductData)
                 setProducts(filteredProductData)
+                setTotal(filteredOrderProductData.reduce((sum,item) => {
+                    return sum + filteredProductData[filteredProductData.findIndex(product => product.id == item.product)].price * item.numProduct
+                }, 0))
             }
             
 
@@ -138,8 +142,14 @@ function OrderDetail() {
                 <div id='title' className="card__right__worker__detail">
                     Product<br/>물품
                 </div>
+                <div id='title' className="card__right__worker__detail">
+                    Unit Price<br/>단가
+                </div>
+                <div id='title' className="card__right__worker__detail">
+                    Quantity<br/>갯수
+                </div>
                 <div id='title' className="card__left__worker__detail">
-                    Quantity 갯수
+                    Subtotal<br/>소계
                 </div>
             </div>
             <div className="card__data">
@@ -149,16 +159,42 @@ function OrderDetail() {
                             {product.productName}
                         </div>
                     ))}
-                    {order.additionalMessage && <div id='AM' className='item'>
-                        Additional Message 추가 메시지
-                    </div>}
                 </div>
-                <div className="card__left__worker__detail">
+                <div className="card__right__worker__detail">
+                    {products.map(product => (
+                        <div key={product.id} className='item'>
+                            ${product.price}
+                        </div>
+                    ))}
+                </div>
+                <div className="card__right__worker__detail">
                     {products.map(product => (
                         <div key={product.id} className='item'>
                             {orderProducts[orderProducts.findIndex(orderProduct => orderProduct.product === product.id)].numProduct}
                         </div>
                     ))}
+                </div>
+                <div className="card__left__worker__detail">
+                    {products.map(product => (
+                        <div key={product.id} className='item'>
+                            ${product.price * orderProducts[orderProducts.findIndex(orderProduct => orderProduct.product === product.id)].numProduct}
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <div className="card__data">
+                <div className="card__right__worker__detail">
+                    <div id='AM' className='item'>
+                        Total 총합
+                    </div>
+                    {order.additionalMessage && <div id='AM' className='item'>
+                        Additional Message 추가 메시지
+                    </div>}
+                </div>
+                <div className="card__left__worker__detail">
+                    <div className='item' style={{ display:'flex', gridColumn : 'span 2'}}>
+                        ${total.toFixed(2)}
+                    </div>
                     {order.additionalMessage && <div className='item'>
                         {order.additionalMessage}
                     </div>}
