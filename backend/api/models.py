@@ -23,7 +23,7 @@ class Order(models.Model):
     additionalMessage = models.CharField(max_length=100, null=True, blank=True)
     expirationDate = models.DateField(editable=False)
     isCompleted = models.BooleanField(default=False)
-    location = models.CharField(max_length=50, null=False)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return str(self.id)
