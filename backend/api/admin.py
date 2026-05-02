@@ -7,6 +7,11 @@ class UserRoleAdmin(admin.ModelAdmin):
     'role'
   ]
 
+class LocationAdmin(admin.ModelAdmin):
+  list_display = [
+    'location'
+  ]
+
 class OrderAdmin(admin.ModelAdmin):
   list_display = [
     'user',
@@ -36,6 +41,7 @@ class FCMTokenAdmin(admin.ModelAdmin):
   ]
 
 admin.site.register(UserRole, UserRoleAdmin)
+admin.site.register(Location, LocationAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(OrderProduct, OrderProductAdmin)
