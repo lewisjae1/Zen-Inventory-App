@@ -21,6 +21,11 @@ class UserRoleUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserRole
         fields = ['id', 'user', 'role']
+        
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = ['id', 'location']
 
 class OrderManagerUpdateSerializer(serializers.ModelSerializer):
     class Meta:
