@@ -18,11 +18,25 @@ def seed_locations(apps, schema_editor):
         "Chehalis",
     ]
 
-    id = 1
-
     for name in locations:
-        Location.objects.get_or_create(id = id, location=name)
-        id += 1
+        Location.objects.get_or_create(location=name)
+
+def unseed_locations(apps, schema_editor):
+    Location = apps.get_model("api", "Location")
+
+    locations = [
+        "Parkland",
+        "Lakewood",
+        "Downtown Tacoma",
+        "Olympia",
+        "Tumwater",
+        "University Place",
+        "Shelton",
+        "Bremerton",
+        "Chehalis",
+    ]
+
+    Location.objects.filter(location__in=locations).delete()
 
 class Migration(migrations.Migration):
 
@@ -31,5 +45,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(seed_locations),
+        migrations.RunPython(seed_locations, unseed_locations)
     ]
