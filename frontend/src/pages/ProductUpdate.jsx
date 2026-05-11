@@ -67,16 +67,20 @@ function ProductUpdate() {
     }
 
     useEffect(() => {
-        fetchRole()
-        fetchProduct()
-        setLoading(false)
+      async function init(){
+            await fetchRole()
+            await fetchProduct()
+            setLoading(false)
+        }
+        
+        init()
       }, [])
 
     if(loading) {
         return <div className='orderCreateDiv'><LoadingIndicator /></div>
     }
 
-    if(isAdmin == false) {
+    if(isAdmin == false && !loading) {
         return <div><NotFound /></div>
     }
 

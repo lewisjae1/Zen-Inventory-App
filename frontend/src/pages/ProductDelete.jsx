@@ -57,7 +57,7 @@ function ProductDelete() {
         return <div className='orderCreateDiv'><LoadingIndicator /></div>
     }
 
-    if(!isAdmin) {
+    if(!isAdmin && !loading) {
         return <div><NotFound /></div>
     }
 
