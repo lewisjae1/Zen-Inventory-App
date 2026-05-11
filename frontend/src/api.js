@@ -5,6 +5,10 @@ const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL
 })
 
+const refreshApi = axios.create({
+    baseURL: import.meta.env.VITE_API_URL
+})
+
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem(ACCESS_TOKEN)
@@ -23,15 +27,8 @@ api.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config
 
-        const accessToken = localStorage.getItem(ACCESS_TOKEN)
         const refreshToken = localStorage.getItem(REFRESH_TOKEN)
 
-        // ✅ If there is NO access token at all → do nothing
-        if (!accessToken) {
-            return Promise.reject(error)
-        }
-
-        // Only attempt refresh if we have refresh token
         if (
             error.response?.status === 401 &&
             refreshToken &&
@@ -40,7 +37,7 @@ api.interceptors.response.use(
             originalRequest._retry = true
 
             try {
-                const res = await api.post('/api/token/refresh/', {
+                const res = await refreshApi.post('/api/token/refresh/', {
                     refresh: refreshToken,
                 })
 
@@ -51,6 +48,11 @@ api.interceptors.response.use(
 
                 return api(originalRequest)
             } catch (err) {
+                localStorage.removeItem(ACCESS_TOKEN)
+                localStorage.removeItem(REFRESH_TOKEN)
+
+                window.location.href = "/login"
+
                 return Promise.reject(err)
             }
         }
