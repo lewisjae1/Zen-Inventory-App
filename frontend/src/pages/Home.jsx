@@ -71,6 +71,8 @@ function Home() {
           navigate('/userroles')
         } else if (route === 'ProductList'){
           navigate('/productList')
+        } else if (route === 'LocationList') {
+          navigate('/locationList')
         }
     }
 
@@ -88,13 +90,16 @@ function Home() {
               <button onClick={() => handleClick('ManagerPendingOrder')} className="btn">Pending Order List 미완료 주문 목록</button>
               <button onClick={() => handleClick('ManagerCompletedOrder')} className="btn">Completed Order List 완료 주문 목록</button>
               <button onClick={() => handleClick('ProductList')} className="btn">Product List 품목 목록</button>
+              <button onClick={() => handleClick('LocationList')} className="btn">Location List 지점 목록</button>
               <button onClick={() => handleClick('UserRoleMapping')} className="btn">User Role Mapping 유저 권한 부여</button>
           </div>
     } else if(userRole.role == 'Admin'){
           return <div className='initialDiv'>
-                  <img src={ZenLogo} alt='Logo' width={200} height={100}/>
-                  <button onClick={() => handleClick('ManagerPendingOrder')} className="btn">Pending Order List 미완료 주문 목록</button>
-                  <button onClick={() => handleClick('ManagerCompletedOrder')} className="btn">Completed Order List 완료 주문 목록</button>
+              <img src={ZenLogo} alt='Logo' width={200} height={100}/>
+              <button onClick={() => handleClick('ManagerPendingOrder')} className="btn">Pending Order List 미완료 주문 목록</button>
+              <button onClick={() => handleClick('ManagerCompletedOrder')} className="btn">Completed Order List 완료 주문 목록</button>
+              <button onClick={() => handleClick('ProductList')} className="btn">Product List 품목 목록</button>
+              <button onClick={() => handleClick('LocationList')} className="btn">Location List 지점 목록</button>
           </div>
     }
 
