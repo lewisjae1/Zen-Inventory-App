@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import LoadingIndicator from '../components/LoadingIndicator'
-import { fetchAllUsersData, fetchOrderData, fetchOrderProductData, fetchProductData } from '../utils/dataFetchutils'
+import { fetchAllUsersData, fetchLocationData, fetchOrderData, fetchOrderProductData, fetchProductData } from '../utils/dataFetchutils'
 import '../styles/OrderDetail.css'
 import api from '../api'
 
 function OrderDetail() {
     const {orderId} = useParams()
     const {role} = useParams()
+    const [locations, setLocations] = useState([])
     const [orderProducts, setOrderProducts] = useState([])
     const [products, setProducts] = useState([])
     const [order, setOrder] = useState(null)
@@ -30,6 +31,9 @@ function OrderDetail() {
             const orderData = await fetchOrderData()
             const orderProductData = await fetchOrderProductData()
             const productData = await fetchProductData()
+            const locationData = await fetchLocationData()
+
+            setLocations(locationData)
 
             const filteredOrderData = orderData.filter(order => order.id === parseInt(orderId))
             const filteredOrderProductData = orderProductData.filter(orderProduct => orderProduct.order === parseInt(orderId))
@@ -110,7 +114,7 @@ function OrderDetail() {
             {role === 'manager' && <div className="card__data">
                 <div className="card__right__detail">
                     <div className='item'>
-                        {order.location}
+                        {locations[locations.findIndex(location => location.id == order.location)].location}
                     </div>
                 </div>
                 <div className="card__right__detail">
@@ -127,7 +131,7 @@ function OrderDetail() {
             {role === 'worker' && <div className="card__data">
                 <div className="card__right__worker__detail">
                     <div className='item'>
-                        {order.location}
+                        {locations[locations.findIndex(location => location.id == order.location)].location}
                     </div>
                 </div>
                 <div className="card__left__worker__detail">

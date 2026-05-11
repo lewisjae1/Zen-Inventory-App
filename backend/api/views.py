@@ -42,6 +42,25 @@ class ProductDelete(generics.DestroyAPIView):
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticated, IsAdminRole]
 
+class LocationList(generics.ListAPIView):
+    queryset = Location.objects.all()
+    serializer_class = LocationSerializer
+    permission_classes = [IsAuthenticated]
+
+class LocationCreate(generics.CreateAPIView):
+    serializer_class = LocationSerializer
+    permission_classes = [IsAuthenticated, IsAdminRole]
+
+class LocationUpdate(generics.UpdateAPIView):
+    queryset = Location.objects.all()
+    serializer_class = LocationSerializer
+    permission_classes = [IsAuthenticated,IsAdminRole]
+    
+class LocationDelete(generics.DestroyAPIView):
+    queryset = Location.objects.all()
+    serializer_class = LocationSerializer
+    permission_classes = [IsAuthenticated, IsAdminRole]
+
 # Create your views here.
 class OrderListCreate(generics.ListCreateAPIView):
     serializer_class = OrderSerializer

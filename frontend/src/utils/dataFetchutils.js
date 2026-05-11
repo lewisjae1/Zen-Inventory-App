@@ -45,6 +45,15 @@ export const fetchProductData = async () => {
     }
 }
 
+export const fetchLocationData = async () => {
+    try {
+        const res = await api.get('api/location/')
+        return res.data
+    } catch (error){
+        console.error(error)
+    }
+}
+
 export const fetchOrderData = async () => {
     try {
         const res = await api.get('api/order/')

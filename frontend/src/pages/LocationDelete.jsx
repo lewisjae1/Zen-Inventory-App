@@ -6,9 +6,9 @@ import api from '../api'
 import { useNavigate, useParams } from 'react-router-dom'
 import NotFound from './NotFound'
 
-function ProductDelete() {
+function LocationDelete() {
     const [isAdmin, setIsAdmin] = useState(false)
-    const {productId} = useParams()
+    const {locationId} = useParams()
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
     const [Completed, setCompleted] = useState(false)
@@ -24,17 +24,17 @@ function ProductDelete() {
 
             if(userRole[0].role == 'Master' || userRole[0].role == 'Admin') {
                 setIsAdmin(true)
-                deleteProduct()
+                deleteLocation()
             }
         } catch (error) {
           console.error(error)
         }
     }
 
-    const deleteProduct = async () => {
+    const deleteLocation = async () => {
       setLoading(true)
       try {
-        const res = await api.delete('api/product/delete/' + productId + '/')
+        const res = await api.delete('api/location/delete/' + locationId + '/')
         setCompleted(true)
       } catch(error) {
         console.log(error)
@@ -83,4 +83,4 @@ function ProductDelete() {
     }
 }
 
-export default ProductDelete
+export default LocationDelete

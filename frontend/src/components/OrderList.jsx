@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import '../styles/OrderList.css'
-import { fetchOrderData, fetchAllUsersData } from '../utils/dataFetchutils'
+import { fetchOrderData, fetchAllUsersData, fetchLocationData } from '../utils/dataFetchutils'
 import LoadingIndicator from '../components/LoadingIndicator'
 import { useNavigate } from 'react-router-dom'
 
 function OrderList({page, role}) {
     const [orders, setOrders] = useState([])
     const [users, setUsers] = useState([])
+    const [locations, setLocations] = useState([])
     const [selectedLocation, setSelectedLocation] = useState('')
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
@@ -17,32 +18,37 @@ function OrderList({page, role}) {
         navigate('/order/' + orderId + '/' + role)
     }
 
-    const sortById = (orders) => {
-        orders.sort((a, b) => b.id - a.id)  
+    const sortByIdDsc = (data) => {
+        data.sort((a, b) => b.id - a.id)  
     }
 
     const getOrderAndUserData = async () => {
         try {
           const orderData = await fetchOrderData()
+
+          const locationData = await fetchLocationData()
+          locationData.sort((a, b) => a.id - b.id)
+          setLocations(locationData)
+
           if (orderData) {
             if(page !== 'pendingOrderList') {
                 if(selectedLocation === '' || selectedLocation === 'All') {
                     const filtered = orderData.filter(order => order.isCompleted === true)
-                    sortById(filtered)
+                    sortByIdDsc(filtered)
                     setOrders(filtered)
                 } else if (selectedLocation !== '') {
-                    const filtered = orderData.filter(order => order.isCompleted === true && order.location === selectedLocation)
-                    sortById(filtered)
+                    const filtered = orderData.filter(order => order.isCompleted === true && order.location === parseInt(selectedLocation))
+                    sortByIdDsc(filtered)
                     setOrders(filtered)
                 }
             } else {
                 if(selectedLocation === '' || selectedLocation === 'All') {
                     const filtered = orderData.filter(order => order.isCompleted === false)
-                    sortById(filtered)
+                    sortByIdDsc(filtered)
                     setOrders(filtered)
                 } else if (selectedLocation !== '') {
-                    const filtered = orderData.filter(order => order.isCompleted === false && order.location === selectedLocation)
-                    sortById(filtered)
+                    const filtered = orderData.filter(order => order.isCompleted === false && order.location === parseInt(selectedLocation))
+                    sortByIdDsc(filtered)
                     setOrders(filtered)
                 }
             }
@@ -77,14 +83,9 @@ function OrderList({page, role}) {
             {role === 'manager' && <div className='user-box' id='orderCreateBox'>
                 <select defaultValue='All' onChange={(e) => setSelectedLocation(e.target.value)} name="location" id="location">
                     <option value='All'>All</option>
-                    <option value="Parkland">Parkland</option>
-                    <option value="Lakewood">Lakewood</option>
-                    <option value="Downtown Tacoma">Downtown Tacoma</option>
-                    <option value="Olympia">Olympia</option>
-                    <option value="Tumwater">Tumwater</option>
-                    <option value="University Place">University Place</option>
-                    <option value="Shelton">Shelton</option>
-                    <option value="Bremerton">Bremerton</option>
+                    {locations.map(location => (
+                          <option key={location.id} value={location.id}>{location.location}</option>
+                    ))}
                 </select>
                 <label>Location 지점</label>
             </div>}
@@ -117,7 +118,7 @@ function OrderList({page, role}) {
                 <div className="card__right">
                     {orders.map(order => (
                         <div key={order.id} className='item'>
-                            {order.location}
+                            {locations[locations.findIndex(location => location.id == order.location)].location}
                         </div>
                     ))}
                 </div>
@@ -147,7 +148,7 @@ function OrderList({page, role}) {
                 <div className="card__right__worker">
                     {orders.map(order => (
                         <div key={order.id} className='item'>
-                            {order.location}
+                            {locations[locations.findIndex(location => location.id == order.location)].location}
                         </div>
                     ))}
                 </div>

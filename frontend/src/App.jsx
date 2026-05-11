@@ -26,6 +26,10 @@ import ProductList from './pages/ProductList'
 import ProductCreate from './pages/ProductCreate'
 import ProductUpdate from './pages/ProductUpdate'
 import ProductDelete from './pages/ProductDelete'
+import LocationList from './pages/LocationList'
+import LocationCreate from './pages/LocationCreate'
+import LocationUpdate from './pages/LocationUpdate'
+import LocationDelete from './pages/LocationDelete'
 
 function Logout() {
   localStorage.removeItem(ACCESS_TOKEN)
@@ -148,6 +152,30 @@ function App() {
             path='/delete-product/:productId'
             element={<ProtectedRoute>
               <ProductDelete />
+            </ProtectedRoute>} 
+          />
+          <Route
+            path='/locationList'
+            element={<ProtectedRoute>
+              <LocationList />
+            </ProtectedRoute>} 
+          />
+          <Route
+            path='/create-location'
+            element={<ProtectedRoute>
+              <LocationCreate />
+            </ProtectedRoute>} 
+          />
+          <Route
+            path='/update-location/:locationId'
+            element={<ProtectedRoute>
+              <LocationUpdate />
+            </ProtectedRoute>} 
+          />
+          <Route
+            path='/delete-location/:locationId'
+            element={<ProtectedRoute>
+              <LocationDelete />
             </ProtectedRoute>} 
           />
           <Route path='/initial' element={<Initial />} />

@@ -1,4 +1,4 @@
-import { fetchOrderProductData, fetchProductData, fetchOrderData } from '../utils/dataFetchutils'
+import { fetchOrderProductData, fetchProductData, fetchOrderData, fetchLocationData } from '../utils/dataFetchutils'
 import { useEffect, useState } from 'react'
 import LoadingIndicator from '../components/LoadingIndicator'
 import '../styles/OrderForm.css'
@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 function OrderForm({method, route}) {
     const [products, setProducts] = useState([])
     const [additionalMessage, setAddtionalMessage] = useState('')
+    const [DBLocations, setDBLocations] = useState([])
     const [location, setLocation] = useState('')
     const [orderProducts, setOrderProduct] = useState([])
     const [loading, setLoading] = useState(true)
@@ -27,6 +28,9 @@ function OrderForm({method, route}) {
         try {
           const productData = await fetchProductData()
           productData.sort((a, b) => a.id - b.id)
+          const locationData = await fetchLocationData()
+          locationData.sort((a, b) => a.id - b.id)
+          setDBLocations(locationData)
           const orderData = await fetchOrderData()
           if (productData && orderData) {
             setProducts(productData)
@@ -181,16 +185,11 @@ function OrderForm({method, route}) {
                     <label>Additional Message 추가 메시지</label>
                 </div>
                 <div className='user-box' id='orderCreateBox'>
-                    <select defaultValue='' value={location && location} onChange={(e) => setLocation(e.target.value)} name="location" id="location">
+                    <select value={location && location} onChange={(e) => setLocation(e.target.value)} name="location" id="location">
                         <option value=''>Field Required 입력 필수</option>
-                        <option value="Parkland">Parkland</option>
-                        <option value="Lakewood">Lakewood</option>
-                        <option value="Downtown Tacoma">Downtown Tacoma</option>
-                        <option value="Olympia">Olympia</option>
-                        <option value="Tumwater">Tumwater</option>
-                        <option value="University Place">University Place</option>
-                        <option value="Shelton">Shelton</option>
-                        <option value="Bremerton">Bremerton</option>
+                        {DBLocations.map(location => (
+                          <option key={location.id} value={location.id}>{location.location}</option>
+                        ))}
                     </select>
                     <label>Location 지점</label>
                 </div>

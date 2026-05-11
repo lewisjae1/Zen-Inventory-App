@@ -48,7 +48,7 @@ function ProductList() {
         return <div className='orderListDiv'><LoadingIndicator /></div>
     }
 
-    if(isAdmin == false) {
+    if(isAdmin == false && !loading) {
         return <div><NotFound /></div>
     }
 

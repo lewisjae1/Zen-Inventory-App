@@ -13,13 +13,17 @@ class UserRole(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=20)
 
+
+class Location(models.Model):
+    location = models.CharField(max_length=50)
+
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     additionalMessage = models.CharField(max_length=100, null=True, blank=True)
     expirationDate = models.DateField(editable=False)
     isCompleted = models.BooleanField(default=False)
-    location = models.CharField(max_length=50, null=False)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return str(self.id)
