@@ -19,7 +19,7 @@ function UserRoles() {
         const userRolesData = await fetchAllUserRoleData()
         const usersData = await fetchAllUsersData()
 
-        const excludeMyDataFromUser = await usersData.filter(user => user.id !== myData[0].id)
+        const excludeMyDataAndMastersFromUser = await usersData.filter(user => user.id !== myData[0].id || user.role !== 'Master')
         excludeMyDataFromUser.sort((a, b) => a.id - b.id)
 
         setUserRoles(userRolesData)
