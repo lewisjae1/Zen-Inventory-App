@@ -87,6 +87,11 @@ class OrderSerializer(serializers.ModelSerializer):
             product_id = product_data['product'].id
             numProduct = product_data['numProduct']
 
+            if numProduct is None or numProduct == 0:
+                if product_id in existing_order_products:
+                    existing_order_products[product_id].delete()
+                continue
+
             if product_id in existing_order_products:
                 existing_product = existing_order_products[product_id]
                 if existing_product.numProduct != numProduct:
@@ -96,10 +101,6 @@ class OrderSerializer(serializers.ModelSerializer):
             else:
                 OrderProduct.objects.create(order=instance, **product_data)
                 updatedProducts.add(product_id)
-
-        for product, existing_product in existing_order_products.items():
-            if product not in updatedProducts or existing_product.numProduct == 0:
-                existing_product.delete()
 
         return instance
 
