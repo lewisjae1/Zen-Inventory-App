@@ -72,6 +72,9 @@ function OrderForm({method, route}) {
         }
 
         setTotal(updated.reduce((sum,item) => {
+          if (Number.isNaN(item.numProduct)) {
+            return sum
+          }
           return sum + products[products.findIndex(product => product.id == item.product)].price * item.numProduct
         }, 0))
 
